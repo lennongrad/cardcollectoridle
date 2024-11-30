@@ -1,0 +1,18 @@
+<div id="shadow" style="border-image-source: url('assets/border-ret.png')">
+    <div id="subcontainer-holder">
+        <div class="subcontainer" id="subcontainer-cash">
+            <img class="icon" src="assets/dollar.png">
+            <div class="amount">{{getCashAmount()}}</div>
+        </div>
+        <div class="subcontainer" id="subcontainer-windows">
+            <div id="window-choice-holder">
+                <div class="window-choice" *ngFor="let windowOption of getWindowOptions()"
+                    [class.active-window]="getActiveWindow() == windowOption.title">
+                    <img src="assets/window_holder.png" class="window-holder">
+                    <img [src]="'assets/' + windowOption.image" class="window-icon"
+                        (click)="setActiveWindow(windowOption.title)" >
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

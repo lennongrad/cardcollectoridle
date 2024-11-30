@@ -1,0 +1,17 @@
+@keyframes bonus-move {
+    0% { transform: translate(-50%, -50%); opacity: 1 }
+    50% { transform: translate(-50%, -100%) scale(1.25); }
+    100% { transform: translate(-50%, -150%); opacity: 0 }
+}
+
+.bonus{
+    position: absolute;
+    pointer-events: none;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Arial';
+    color: white;
+    animation: bonus-move 1s;
+    opacity: 0;
+    filter: drop-shadow(0 0 1px black) drop-shadow(0 0 1px black) drop-shadow(0 0 1px black);
+}

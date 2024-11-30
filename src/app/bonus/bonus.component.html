@@ -1,0 +1,5 @@
+<div id="bonus-container">
+    <div class="bonus" *ngFor="let bonus of bonuses" [ngStyle]="getBonusStyle(bonus)">
+        {{bonus.value}}
+    </div>
+</div>
