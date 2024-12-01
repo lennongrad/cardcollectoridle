@@ -4,6 +4,10 @@
             <img class="icon" src="assets/dollar.png">
             <div class="amount">{{getCashAmount()}}</div>
         </div>
+        <div class="subcontainer" id="subcontainer-exp">
+            <img class="icon" src="assets/experience.png">
+            <div class="amount">{{getExpAmount()}}</div>
+        </div>
         <div class="subcontainer" id="subcontainer-windows">
             <div id="window-choice-holder">
                 <div class="window-choice" *ngFor="let windowOption of getWindowOptions()"

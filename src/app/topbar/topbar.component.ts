@@ -22,6 +22,10 @@ export class TopbarComponent {
     return this.productionService.getCashAmount();
   }
 
+  getExpAmount(): string{
+    return this.productionService.getExpAmount();
+  }
+
   setActiveWindow(newWindow: WindowType){
     this.windowService.setActiveWindow(newWindow)
   }

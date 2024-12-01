@@ -1,59 +1,68 @@
-<div class="container">
-    <div class="panel">
-        <div class="panel-interior">
-            <div id="button-segment">
-                <div id="button-holder">
-                    <div id="button" (click)="clickButton($event)"></div>
+<div id="button-segment">
+    <div id="button-production" [class.is-hidden]="!hideProduction" (click)="hideProduction = !hideProduction">
+        <img src="assets/window_chain.png">
+    </div>
+    <div id="button-placeholder"></div>
+    <div id="button-level">
+        Lvl.{{getOverallLevel()}}
+    </div>
+    <div id="button-critical">
+        {{getCriticalRate()}}%
+    </div>
+    <div id="button-holder">
+        <div id="button" (click)="clickButton($event)"></div>
+    </div>
+</div>
+
+<div id="continual-segment">
+    <div class="detail" *ngFor="let productionDetail of getProductionDetails(); index as i"
+        [class.purchaseable]="getProductionPurchaseable(productionDetail, i)">
+        <div class="detail-head" (click)="clickHeader(productionDetail)">
+            <div class="detail-head-level">
+                {{getProductionLevel(productionDetail)}}
+            </div>
+            <div class="detail-head-title" [style]="getProductionProgressStyle(productionDetail)">
+                {{productionDetail.productionType.title}}
+            </div>
+            <div class="detail-head-value" [id]="'detail-' + i">
+                +${{getProductionValue(productionDetail)}}
+            </div>
+        </div>
+        <div class="detail-levels" [class.is-hidden]="hideProduction">
+            <div class="detail-levels-subheader detail-levels-click"
+            (click)="clickLevelUp(productionDetail, 'click')"
+            (contextmenu)="clickLevelDown(productionDetail, 'click')">
+                <div class="detail-levels-result">
+                    +{{productionDetail.levelClick}}
+                    <img src="assets/window_hand.png">
+                </div>
+                <div class="detail-levels-exp">
+                    {{getProductionExp(productionDetail, 'click')}} 
+                    <img src="assets/window_bubbles.png">
                 </div>
             </div>
-            <div id="continual-segment">
-                <div class="detail" *ngFor="let productionDetail of getProductionDetails()">
-                    <div class="detail-head" (click)="clickHeader(productionDetail)">
-                        <div class="detail-head-level">
-                            {{getProductionLevel(productionDetail)}}
-                        </div>
-                        <div class="detail-head-title" [style]="getProductionProgressStyle(productionDetail)">
-                            {{productionDetail.productionType.title}}
-                        </div>
-                        <div class="detail-head-value">
-                            +${{getProductionValue(productionDetail)}}
-                        </div>
-                    </div>
-                    <div class="detail-levels">
-                        <div class="detail-levels-subheader detail-levels-click"
-                        (click)="clickLevelUp(productionDetail, 'click')">
-                            <div class="detail-levels-result">
-                                +{{productionDetail.levelClick}}
-                                <img src="assets/window_hand.png">
-                            </div>
-                            <div class="detail-levels-exp">
-                                {{getProductionExp(productionDetail, 'click')}} 
-                                <img src="assets/window_bubbles.png">
-                            </div>
-                        </div>
-                        <div class="detail-levels-subheader detail-levels-time"
-                            (click)="clickLevelUp(productionDetail, 'time')">
-                            <div class="detail-levels-result">
-                                +{{productionDetail.levelTime}}
-                                <img src="assets/window_clock.png">
-                            </div>
-                            <div class="detail-levels-exp">
-                                {{getProductionExp(productionDetail, 'time')}} 
-                                <img src="assets/window_bubbles.png">
-                            </div>
-                        </div>
-                        <div class="detail-levels-subheader detail-levels-value"
-                        (click)="clickLevelUp(productionDetail, 'value')">
-                            <div class="detail-levels-result">
-                                ×{{getProductionValuePercentage(productionDetail)}}
-                                <img src="assets/window_money.png">
-                            </div>
-                            <div class="detail-levels-exp">
-                                {{getProductionExp(productionDetail, 'value')}} 
-                                <img src="assets/window_bubbles.png">
-                            </div>
-                        </div>
-                    </div>
+            <div class="detail-levels-subheader detail-levels-time"
+                (click)="clickLevelUp(productionDetail, 'time')"
+                (contextmenu)="clickLevelDown(productionDetail, 'time')">
+                <div class="detail-levels-result">
+                    +{{productionDetail.levelTime}}
+                    <img src="assets/window_clock.png">
+                </div>
+                <div class="detail-levels-exp">
+                    {{getProductionExp(productionDetail, 'time')}} 
+                    <img src="assets/window_bubbles.png">
+                </div>
+            </div>
+            <div class="detail-levels-subheader detail-levels-value"
+            (click)="clickLevelUp(productionDetail, 'value')"
+            (contextmenu)="clickLevelDown(productionDetail, 'value')">
+                <div class="detail-levels-result">
+                    ×{{getProductionValuePercentage(productionDetail)}}
+                    <img src="assets/window_money.png">
+                </div>
+                <div class="detail-levels-exp">
+                    {{getProductionExp(productionDetail, 'value')}} 
+                    <img src="assets/window_bubbles.png">
                 </div>
             </div>
         </div>

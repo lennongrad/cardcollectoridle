@@ -6,22 +6,29 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProductionComponent } from './production/production.component';
 import { TopbarComponent } from './topbar/topbar.component';
-import { PreviewComponent } from './preview/preview.component';
 import { BonusComponent } from './bonus/bonus.component';
+import { BinderComponent } from './binder/binder.component';
+import { StoreComponent } from './store/store.component';
+import { AchievementsComponent } from './achievements/achievements.component';
+import { SettingsComponent } from './settings/settings.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProductionComponent,
     TopbarComponent,
-    PreviewComponent,
-    BonusComponent
+    BonusComponent,
+    BinderComponent,
+    StoreComponent,
+    AchievementsComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    CommonModule
-  ],
+    CommonModule,
+    HttpClientModule  ],
   providers: [],
   bootstrap: [AppComponent]
 })

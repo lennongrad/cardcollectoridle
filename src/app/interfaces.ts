@@ -5,6 +5,11 @@ export interface Position {
     y: number
 }
 
+export interface ProductionOutput {
+    index: number,
+    value: number
+}
+
 export interface Bonus {
     x: number,
     y: number,
@@ -36,7 +41,7 @@ export interface SavedProductionDetail {
 }
 
 // Managing viewable windows
-export type WindowType = "Labor" | "Store" | "Collection" | "Achievements" | "Settings";
+export type WindowType = "Store" | "Binder" | "Achievements" | "Settings";
 
 export interface WindowOption {
     title: WindowType,

@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { ProductionService } from '../production.service';
-import { ProductionDetail } from '../interfaces';
+import { ProductionDetail, ProductionOutput } from '../interfaces';
 import { Beautify } from '../beautify';
 
 @Component({
@@ -9,14 +9,29 @@ import { Beautify } from '../beautify';
   styleUrl: './production.component.less'
 })
 export class ProductionComponent {
-  constructor(private productionService: ProductionService){}
+  hideProduction = false;
 
-  getProductionDetails(): Array<ProductionDetail>{
+  constructor(private productionService: ProductionService, private elRef: ElementRef){
+    this.productionService.productionEmit.subscribe((productionOutput: ProductionOutput) => {
+      this.onProductionEmit(productionOutput)
+     });
+  }
+
+  getProductionDetails(): Array<ProductionDetail> {
     return this.productionService.getProductionDetails()
   }
 
+  getProductionPurchaseable(productionDetail: ProductionDetail, index: number): boolean {
+    if(index == 0){
+      return true
+    }
+
+    var previousDetail = this.productionService.getProductionDetails()[index - 1]
+    return this.productionService.getProductionLevel(previousDetail) >= 5
+  }
+
   getProductionLevel(productionDetail: ProductionDetail): string {
-    return "Lvl." + (productionDetail.levelClick + productionDetail.levelTime + productionDetail.levelValue)
+    return "Lvl." + this.productionService.getProductionLevel(productionDetail)
   }
 
   getProductionValuePercentage(productionDetail: ProductionDetail): string {
@@ -26,7 +41,6 @@ export class ProductionComponent {
   getProductionProgressPercentage(productionDetail: ProductionDetail): number {
     return productionDetail.currentProgress / this.productionService.getMaxProgress(productionDetail)
   }
-
   getProductionExp(productionDetail: ProductionDetail, segment: string): string {
     return Beautify(this.productionService.getProductionExp(productionDetail, segment), 0)
   }
@@ -42,6 +56,25 @@ export class ProductionComponent {
     }
   }
 
+  getOverallLevel(): number {
+    return this.productionService.getOverallLevel()
+  }
+
+  getCriticalRate(): number {
+    return this.productionService.getCriticalRate() * 100
+  }
+
+  onProductionEmit(productionOutput: ProductionOutput) {
+    var childElement = this.elRef.nativeElement.querySelector("#detail-" + productionOutput.index);
+
+    this.productionService.emitBonus({
+      x: childElement.getBoundingClientRect().x + 20,
+      y: childElement.getBoundingClientRect().y + 20,
+      timer: 200,
+      value: "$" + productionOutput.value
+    })
+  }
+
   clickButton(e: MouseEvent){
     this.productionService.clickButton({
       x: e.clientX,
@@ -54,10 +87,11 @@ export class ProductionComponent {
   }
 
   clickLevelUp(productionDetail: ProductionDetail, segment: string) {
-    switch(segment){
-      case "click": productionDetail.levelClick += 1; break;
-      case "time": productionDetail.levelTime += 1; break;
-      case "value": productionDetail.levelValue += 1; break;
-    }
+    this.productionService.levelUp(productionDetail, segment);
+  }
+
+  clickLevelDown(productionDetail: ProductionDetail, segment: string) {
+    this.productionService.levelDown(productionDetail, segment);
+    return false;
   }
 }

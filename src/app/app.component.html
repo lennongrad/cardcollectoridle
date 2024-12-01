@@ -1,8 +1,23 @@
 <div id="division" style="background-image: url('assets/checkerboard.png')">
-    <app-topbar></app-topbar>
-    <div id="middle-division">
-      <app-production></app-production>
-      <app-preview></app-preview>
+  <app-topbar></app-topbar>
+  <div id="middle-division">
+    <div class="container" id="container-production">
+      <div class="panel">
+        <div class="panel-interior">
+          <app-production></app-production>
+        </div>
+      </div>
     </div>
+    <div class="container" id="container-preview">
+      <div class="panel">
+        <div class="panel-interior">
+          <app-binder class="window-display" *ngIf="getActiveWindow() == 'Binder'"></app-binder>
+          <app-store class="window-display" *ngIf="getActiveWindow() == 'Store'"></app-store>
+          <app-achievements class="window-display" *ngIf="getActiveWindow() == 'Achievements'"></app-achievements>
+          <app-settings class="window-display" *ngIf="getActiveWindow() == 'Settings'"></app-settings>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <app-bonus></app-bonus>
