@@ -31,7 +31,7 @@ export class ProductionComponent {
   }
 
   getProductionLevel(productionDetail: ProductionDetail): string {
-    return "Lvl." + this.productionService.getProductionLevel(productionDetail)
+    return String(this.productionService.getProductionLevel(productionDetail))
   }
 
   getProductionValuePercentage(productionDetail: ProductionDetail): string {

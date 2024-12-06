@@ -1,0 +1,42 @@
+---,Base Set,base,5
+Bunbuns,Companion,---,1,Vanilla,1,Common
+Bunbuns2,Companion,Bunbuns,2,Vanilla,2,Common
+Bunbuns3,Companion,Bunbuns2,3,Vanilla,3,Uncommon
+Pyrortle,Companion,---,1,Fire,2,Common
+Pyrortle2,Companion,Pyrortle,2,Fire,3,Uncommon
+Pyrortle3,Companion,Pyortle2,3,Fire,4,Rare
+Serpentry,Companion,---,1,Water,2,Common
+Serpentry2,Companion,Serpentry,2,Water,3,Uncommon
+Serpentry3,Companion,Serpentry2,3,Water,4,Rare
+Molemire,Companion,---,1,Earth,2,Common
+Molemire2,Companion,Molemire,2,Earth,3,Uncommon
+Molemire3,Companion,Molemire2,3,Earth,4,Rare
+Cawblade,Companion,---,1,Wind,2,Common
+Cawblade2,Companion,Cawblade,2,Wind,3,Uncommon
+Cawblade3,Companion,Cawblade2,3,Wind,4,Rare
+Blazenn,Companion,---,5,Fire,6,Mystic
+Tsunamite,Companion,---,5,Water,6,Mystic
+Dustclops,Companion,---,5,Earth,6,Mystic
+Wingedly,Companion,---,5,Wind,6,Mystic
+Drakeling,Companion,---,2,Vanilla,3,Uncommon
+Drakonian,Companion,Drakeling,3,Vanilla,4,Rare
+Draking,Companion,Drakonian,5,Vanilla,7,Mystic
+Bandages,Skill,---,2,Vanilla,1,Common
+Potion,Skill,---,1,Vanilla,1,Common
+Super Potion,Skill,---,3,Vanilla,2,Uncommon
+Ultra Potion,Skill,---,4,Vanilla,3,Rare
+Flute,Skill,---,2,Vanilla,2,Uncommon
+Flame Stone,Skill,---,3,Fire,3,Uncommon
+Jet Stone,Skill,---,3,Water,3,Uncommon
+Iron Stone,Skill,---,3,Earth,3,Uncommon
+Marble Stone,Skill,---,3,Wind,3,Uncommon
+City,Territory,---,1,Vanilla,1,Common
+Desert,Territory,---,2,Fire,1,Common
+Lake,Territory,---,2,Water,1,Common
+Quarry,Territory,---,2,Earth,1,Common
+Temple,Territory,---,2,Wind,1,Common
+Capital,Territory,---,2,Vanilla,3,Rare
+Volcano,Territory,---,3,Fire,3,Rare
+Ocean,Territory,---,3,Water,3,Rare
+Mountain,Territory,---,3,Earth,3,Rare
+Ruins,Territory,---,3,Wind,3,Rare

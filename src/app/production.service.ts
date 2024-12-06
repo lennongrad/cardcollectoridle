@@ -2,6 +2,7 @@ import { EventEmitter, Injectable, OnInit } from '@angular/core';
 import { Beautify } from './beautify';
 import { Bonus, Position, ProductionDetail, ProductionOutput, ProductionType, SavedProductionDetail } from './interfaces';
 import { interval, Subject } from 'rxjs';
+import { DataManageService } from './data-manage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,35 +11,34 @@ export class ProductionService {
   cash: number = 0;
   exp: number = 0;
 
+  skipSaving = false;
+
   public bonusEmit: Subject<Bonus> = new Subject(); 
   public productionEmit: Subject<ProductionOutput> = new Subject();
 
   productionDetails: Array<ProductionDetail> = [];
   
-  constructor(){
-    // placeholder
-    var productionTypes: Array<ProductionType> = [
-      { id: 0, title: "Local Tournaments", icon: "", power: 1 },
-      { id: 1, title: "Card Trading", icon: "", power: 3 },
-      { id: 2, title: "Write Articles", icon: "", power: 5 },
-      { id: 3, title: "Regional Tournaments", icon: "", power: 6 },
-      { id: 4, title: "Manage Store", icon: "", power: 9 },
-      { id: 5, title: "Record Videos", icon: "", power: 11 },
-      { id: 6, title: "Global Tournaments", icon: "", power: 12 },
-    ]
+  constructor(private dataManageService: DataManageService){
+    var savedProductionDetails: Array<SavedProductionDetail> = []
+    var potentialProductionDetails = localStorage.getItem("productionDetails")
+    if(potentialProductionDetails != null && potentialProductionDetails != ""){
+      savedProductionDetails = JSON.parse(potentialProductionDetails)
+    }
 
-    // placeholder
-    var savedProductionDetails = new Map<number, SavedProductionDetail>([
-      [ 0, { currentProgress: 0, levelClick: 0, levelTime: 0, levelValue: 1 } ],
-      [ 1, { currentProgress: 0, levelClick: 0, levelTime: 0, levelValue: 1 } ],
-      [ 2, { currentProgress: 0, levelClick: 0, levelTime: 0, levelValue: 1 } ],
-      [ 3, { currentProgress: 0, levelClick: 0, levelTime: 0, levelValue: 1 } ],
-      [ 4, { currentProgress: 0, levelClick: 0, levelTime: 0, levelValue: 1 } ],
-      [ 5, { currentProgress: 0, levelClick: 0, levelTime: 0, levelValue: 1 } ],
-      [ 6, { currentProgress: 0, levelClick: 0, levelTime: 0, levelValue: 1 } ],
-    ])
+    var potentialCash = localStorage.getItem("cash")
+    if(potentialCash != null && potentialCash != ""){
+      this.cash = Number(potentialCash)
+    }
+    var potentialExp = localStorage.getItem("exp")
+    if(potentialExp != null && potentialExp != ""){
+      this.exp = Number(potentialExp)
+    }
 
-    this.loadProductionDetails(productionTypes, savedProductionDetails)
+    this.dataManageService.beginParsingProduction().subscribe(
+      (loadedProductionTypes: Array<ProductionType>) => {
+        this.loadProductionDetails(loadedProductionTypes, savedProductionDetails)
+      }
+    )
     
     var timer = interval(1);
     timer.subscribe(() => {this.onCentisecond()})
@@ -54,9 +54,18 @@ export class ProductionService {
 
   loadProductionDetails(
     productionTypes: Array<ProductionType>, 
-    savedProductionDetails: Map<number, SavedProductionDetail>){
+    savedProductionDetails: Array<SavedProductionDetail>){
       productionTypes.forEach((productionType: ProductionType) => {
-        var loadedProductionDetail = savedProductionDetails.get(productionType.id)
+        var loadedProductionDetail = savedProductionDetails[productionType.id]
+        if(loadedProductionDetail == null){
+          loadedProductionDetail = {
+            currentProgress: 0, 
+            levelClick: 0,
+            levelTime: 0,
+            levelValue: 1
+          }
+        }
+
         this.productionDetails.push({
           productionType: productionType,
           currentProgress: loadedProductionDetail?.currentProgress!,
@@ -65,6 +74,28 @@ export class ProductionService {
           levelValue: loadedProductionDetail?.levelValue!
         })
     })
+  }
+  
+  saveProductionDetails() {
+    if(this.skipSaving){
+      return;
+    }
+
+    var savedProductionDetails: Array<SavedProductionDetail> = []
+    this.productionDetails.forEach((productionDetail: ProductionDetail) => {
+      savedProductionDetails.push(productionDetail)
+    })
+
+    localStorage.setItem("productionDetails", JSON.stringify(savedProductionDetails));
+    localStorage.setItem("cash", String(this.cash))
+    localStorage.setItem("exp", String(this.exp))
+  }
+
+  resetSave() {
+    localStorage.setItem("productionDetails", "");
+    localStorage.setItem("cash", "");
+    localStorage.setItem("exp", "");
+    this.skipSaving = true;
   }
 
   getProductionDetails(): Array<ProductionDetail> {
@@ -191,5 +222,6 @@ export class ProductionService {
         this.productionEmit.next({index: index, value: finalValue})
       }
     })
+    this.saveProductionDetails()
   }
-}
+} 

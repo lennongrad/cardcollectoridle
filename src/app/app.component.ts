@@ -3,6 +3,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { ProductionService } from './production.service';
 import { WindowService } from './window.service';
 import { WindowType } from './interfaces';
+import { CollectionService } from './collection.service';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,7 @@ import { WindowType } from './interfaces';
 export class AppComponent {
   constructor(
     private productionService: ProductionService,
+    private collectionService: CollectionService,
     private windowService: WindowService){}
 
   getActiveWindow(): WindowType {
@@ -23,6 +25,11 @@ export class AppComponent {
     switch(event.key){
       case "e": this.productionService.exp += 1000; break;
       case "c": this.productionService.cash += 100; break;
+      case "r": 
+        this.productionService.resetSave();  
+        this.collectionService.resetSave(); 
+        location.reload(); 
+        break;
     }
   }
 }

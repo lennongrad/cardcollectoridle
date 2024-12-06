@@ -1,0 +1,51 @@
+#binder-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    overflow-y: scroll;
+    justify-content: center;
+    user-select: none;
+}
+
+.card-holder{
+    margin: 4px;
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+app-card {
+    position: relative;
+    width: 200px;
+    height: 280px;
+    perspective: 800px;
+}
+
+.card-count {
+    display: flex;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 5px;
+
+    div {
+        flex: 1;
+        text-align: center;
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    img {
+        vertical-align: top;
+        margin-right: 3px;
+    }
+
+    .card-count-cost {
+        flex: 1.5;
+    }
+}

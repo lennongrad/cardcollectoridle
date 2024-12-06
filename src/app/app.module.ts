@@ -12,6 +12,8 @@ import { StoreComponent } from './store/store.component';
 import { AchievementsComponent } from './achievements/achievements.component';
 import { SettingsComponent } from './settings/settings.component';
 import { HttpClientModule } from '@angular/common/http';
+import { CardComponent } from './card/card.component';
+import { PackDisplayComponent } from './pack-display/pack-display.component';
 
 @NgModule({
   declarations: [
@@ -22,13 +24,16 @@ import { HttpClientModule } from '@angular/common/http';
     BinderComponent,
     StoreComponent,
     AchievementsComponent,
-    SettingsComponent
+    SettingsComponent,
+    CardComponent,
+    PackDisplayComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     CommonModule,
-    HttpClientModule  ],
+    HttpClientModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

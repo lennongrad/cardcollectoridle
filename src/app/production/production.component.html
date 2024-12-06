@@ -18,9 +18,7 @@
     <div class="detail" *ngFor="let productionDetail of getProductionDetails(); index as i"
         [class.purchaseable]="getProductionPurchaseable(productionDetail, i)">
         <div class="detail-head" (click)="clickHeader(productionDetail)">
-            <div class="detail-head-level">
-                {{getProductionLevel(productionDetail)}}
-            </div>
+            <img class="detail-head-icon" [src]="'assets/' + productionDetail.productionType.icon">
             <div class="detail-head-title" [style]="getProductionProgressStyle(productionDetail)">
                 {{productionDetail.productionType.title}}
             </div>
@@ -29,6 +27,9 @@
             </div>
         </div>
         <div class="detail-levels" [class.is-hidden]="hideProduction">
+            <div class="detail-levels-level">
+                Lvl.<br>{{getProductionLevel(productionDetail)}}
+            </div>
             <div class="detail-levels-subheader detail-levels-click"
             (click)="clickLevelUp(productionDetail, 'click')"
             (contextmenu)="clickLevelDown(productionDetail, 'click')">
