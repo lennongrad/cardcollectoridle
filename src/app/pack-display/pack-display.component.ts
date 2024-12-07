@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { CardPackCard } from '../interfaces';
+import { CollectionService } from '../collection.service';
 
 @Component({
   selector: 'app-pack-display',
@@ -6,5 +8,11 @@ import { Component } from '@angular/core';
   styleUrl: './pack-display.component.less'
 })
 export class PackDisplayComponent {
+  packContents?: Array<CardPackCard>
 
+  constructor(collectionService: CollectionService) {
+    collectionService.packOpened.subscribe((cards: Array<CardPackCard>) => {
+      this.packContents = cards
+    })
+  }
 }

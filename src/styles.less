@@ -23,6 +23,47 @@
     animation: animated-background-bars 45s linear infinite;
 }
 
+
+
+.panel{
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    width: calc(100% - 30px);
+    height: calc(100% - 30px);
+
+    border-radius: 4px;
+    background: repeating-linear-gradient(
+        45deg,
+        #0a303f,
+        #0a303f 20px,
+        #0f485e 20px, 
+        #0f485e 40px
+    ); 
+    box-shadow: 2px 2px rgba(0,0,0,.8);
+    background-size: 4000px 100%;
+    animation: animated-background-bars 45s linear infinite;
+}
+
+.panel-interior{
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    width: calc(100% - 6px);
+    height: calc(100% - 6px);
+    background-color: #123645;
+    border-radius: 4px;
+
+    .window-display {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+}
+
 @font-face {
     font-family: 'Extra Thick';
     src: url('assets/fonts/Extra_Thick_More_Letter_Gap.ttf') format('truetype');

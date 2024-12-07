@@ -1,23 +1,29 @@
+
 <div id="binder-container" *ngIf="activeCardSet != undefined">
-    <button (click)="t()">test</button>
-    <div *ngFor="let card of activeCardSet.cards; index as i" class="card-holder"
-        (click)="clickCard(card)" (contextmenu)="rightClickCard(card)">
-        <app-card 
-            [card]="(card.maxCount + card.maxFoilCount > 0) ? card.cardType : undefined"
-            [isFoil]="card.foilCount > 0"></app-card>
-        <div class="card-count">
-            <div class="card-count-main">
-                <img src="assets/production_global.png">
-                <span>{{card.count}}</span>
-            </div>
-            <div class="card-count-foil">
-                <img src="assets/production_global.png">
-                <span>{{card.foilCount}}</span>
-            </div>
-            <div class="card-count-cost">
-                <img src="assets/production_global.png">
-                <span>${{getPrice(card)}}</span>
+    <div id="store-container">
+        <app-store [cardPacks]="activeCardSet.cardPacks"></app-store>
+    </div>
+    <div id="cards-container">
+        <div *ngFor="let card of activeCardSet.cards; index as i" class="card-holder"
+            (click)="clickCard(card)" (contextmenu)="rightClickCard(card)">
+            <app-card 
+                [card]="(card.maxCount + card.maxFoilCount > 0) ? card.cardType : undefined"
+                [isFoil]="card.foilCount > 0"></app-card>
+            <div class="card-count">
+                <div class="card-count-main">
+                    <img src="assets/production_global.png">
+                    <span>{{card.count}}</span>
+                </div>
+                <div class="card-count-foil">
+                    <img src="assets/production_global.png">
+                    <span>{{card.foilCount}}</span>
+                </div>
+                <div class="card-count-cost">
+                    <img src="assets/production_global.png">
+                    <span>${{getPrice(card)}}</span>
+                </div>
             </div>
         </div>
+        <div class="card-holder" style="opacity: 0" *ngFor="let _ of getBurnerCount()"></div>
     </div>
 </div>

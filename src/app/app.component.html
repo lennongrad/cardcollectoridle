@@ -12,7 +12,7 @@
       <div class="panel">
         <div class="panel-interior">
           <app-binder class="window-display" *ngIf="getActiveWindow() == 'Binder'"></app-binder>
-          <app-store class="window-display" *ngIf="getActiveWindow() == 'Store'"></app-store>
+          <!--<app-store class="window-display" *ngIf="getActiveWindow() == 'Store'"></app-store>-->
           <app-achievements class="window-display" *ngIf="getActiveWindow() == 'Achievements'"></app-achievements>
           <app-settings class="window-display" *ngIf="getActiveWindow() == 'Settings'"></app-settings>
         </div>
@@ -21,3 +21,4 @@
   </div>
 </div>
 <app-bonus></app-bonus>
+<app-pack-display></app-pack-display>

@@ -12,9 +12,20 @@ export class BinderComponent {
   activeCardSet?: CardSetDetail;
 
   constructor(private collectionService: CollectionService) {
-    collectionService.cardSetsLoaded.subscribe(() => {
+    if(this.collectionService.cardSets.length == 0){
+      collectionService.cardSetsLoaded.subscribe(() => {
+        this.activeCardSet = this.collectionService.cardSets[0]
+      })
+    } else {
       this.activeCardSet = this.collectionService.cardSets[0]
-    })
+    }
+  }
+
+  getBurnerCount(): Array<null> {
+    var cardsPerRow = Math.max(3, Math.floor((window.innerWidth - 371) / 210))
+    var neededBurners = cardsPerRow - (this.activeCardSet!.cards.length % cardsPerRow)
+    
+    return Array(neededBurners)
   }
 
   getCardSets(): Array<CardSetDetail> {
@@ -35,10 +46,11 @@ export class BinderComponent {
   }
 
   t() {
-    console.log(this.collectionService.buyPack([{
+    /*console.log(this.collectionService.buyPack([{
       set: this.activeCardSet!,
       cardCount: 6,
-      foilBoost: 0
-    }]))
+      foilBoost: 0,
+      t
+    }]))*/
   }
 }

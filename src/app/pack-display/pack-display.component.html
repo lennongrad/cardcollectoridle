@@ -1,1 +1,6 @@
-<p>pack-display works!</p>
+<div id="pack-back" *ngIf="packContents != undefined"></div>
+<div id="pack-display" class="panel" *ngIf="packContents != undefined">
+    <div class="panel-interior">
+        <app-card *ngFor="let card of packContents" [card]="card.card.cardType"></app-card>
+    </div>
+</div>

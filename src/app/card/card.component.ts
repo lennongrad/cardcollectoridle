@@ -79,7 +79,6 @@ export class CardComponent {
     var containerWidth = this.element.nativeElement.offsetWidth;
     var containerHeight = this.element.nativeElement.offsetHeight;
 
-    
     // set font sizes
     this.fontSizeTiny = containerWidth * .03;
     this.fontSizeSmall = containerWidth * .045;
@@ -132,10 +131,5 @@ export class CardComponent {
   onMouseOut(event: MouseEvent) {
     this.lastMoveX = 0
     this.lastMoveY = 0
-  }
-  
-  @HostListener('window:resize', ['$event'])
-  onResize(_event: any) {
-    this.setCardDimensions();
   }
 }

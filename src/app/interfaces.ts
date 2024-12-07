@@ -55,7 +55,8 @@ export interface CardSet {
 export interface CardSetDetail {
     cardSet: CardSet,
     cards: Array<CardDetail>,
-    byRarity: Record<CardRarity, Array<CardDetail>>
+    byRarity: Record<CardRarity, Array<CardDetail>>,
+    cardPacks: Array<PackType>
 }
 
 export interface CardType {
@@ -94,7 +95,12 @@ export interface SavedCardDetail {
 export interface PackType {
     set: CardSetDetail,
     cardCount: number,
-    foilBoost: number
+    foilBoost: number,
+    texture: string,
+    adjustment: string,
+    alternateMax: number,
+    currentAlternate: number,
+    baseCost: number
 }
 
 export interface CardPackCard {

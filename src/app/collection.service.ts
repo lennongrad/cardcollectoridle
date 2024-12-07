@@ -3,6 +3,7 @@ import { DataManageService } from './data-manage.service';
 import { CardDetail, CardPackCard, CardRarity, CardSet, CardSetDetail, CardType, PackType, SavedCardDetail, SavedSetDetail } from './interfaces';
 import { Subject, Subscription } from 'rxjs';
 import { randomItem } from './helpers';
+import { RGBA_ASTC_10x10_Format } from 'three';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ export class CollectionService {
   cardSets: Array<CardSetDetail> = []
   skipSaving: boolean = false;
   
-  public cardSetsLoaded: Subject<null> = new Subject();
+  public cardSetsLoaded = new Subject();
+  public packOpened = new Subject<Array<CardPackCard>>()
 
   constructor(private dataManageService: DataManageService) {
     var savedCardDetails: Array<SavedCardDetail> = []
@@ -83,6 +85,8 @@ export class CollectionService {
     cards.forEach((card: CardPackCard) => {
       this.acquireCard(card.card, card.count, card.foilCount)
     })
+
+    this.packOpened.next(cards)
   }
 
   acquireCard(card: CardDetail, count: number = 1, foilCount: number = 0) {
@@ -123,50 +127,83 @@ export class CollectionService {
     this.skipSaving = true
   }
 
-  loadCardDetails(
-    loadedCardSets: Array<CardSet>, 
-    savedCardDetails: Array<SavedCardDetail>){
-      var cardDetailMap = new Map<String, SavedCardDetail>()
-      savedCardDetails.forEach((savedCardDetail: SavedCardDetail) => {
-        cardDetailMap.set(savedCardDetail.id, savedCardDetail)
-      })
+  loadCardDetails(loadedCardSets: Array<CardSet>, savedCardDetails: Array<SavedCardDetail>){
+    var cardDetailMap = new Map<String, SavedCardDetail>()
+    savedCardDetails.forEach((savedCardDetail: SavedCardDetail) => {
+      cardDetailMap.set(savedCardDetail.id, savedCardDetail)
+    })
 
-      loadedCardSets.forEach((cardSet: CardSet) => {
-        var cardDetails: Array<CardDetail> = []
-        var byRarity: Record<CardRarity, Array<CardDetail>> = {
-          "Common": [], "Uncommon": [], "Rare": [], "Mystic": []
+    loadedCardSets.forEach((cardSet: CardSet) => {
+      var cardDetails: Array<CardDetail> = []
+      var byRarity: Record<CardRarity, Array<CardDetail>> = {
+        "Common": [], "Uncommon": [], "Rare": [], "Mystic": []
+      }
+
+      cardSet.cards.forEach((cardType: CardType) => {
+        var relevantDetails: SavedCardDetail | undefined = cardDetailMap.get(cardType.id)
+
+        var cardDetail: CardDetail = {
+          cardType: cardType,
+          count: 0,
+          foilCount: 0,
+          maxCount: 0,
+          maxFoilCount: 0
         }
-
-        cardSet.cards.forEach((cardType: CardType) => {
-          var relevantDetails: SavedCardDetail | undefined = cardDetailMap.get(cardType.id)
-
-          var cardDetail: CardDetail = {
+        if(relevantDetails != undefined){
+          cardDetail = {
             cardType: cardType,
-            count: 0,
-            foilCount: 0,
-            maxCount: 0,
-            maxFoilCount: 0
+            count: relevantDetails.count,
+            foilCount: relevantDetails.foilCount,
+            maxCount: relevantDetails.maxCount,
+            maxFoilCount: relevantDetails.maxFoilCount
           }
-          if(relevantDetails != undefined){
-            cardDetail = {
-              cardType: cardType,
-              count: relevantDetails.count,
-              foilCount: relevantDetails.foilCount,
-              maxCount: relevantDetails.maxCount,
-              maxFoilCount: relevantDetails.maxFoilCount
-            }
-          }
-          cardDetails.push(cardDetail)
-          byRarity[cardType.rarity].push(cardDetail)
-        })
-        
-        this.cardSets.push({
-          cardSet: cardSet,
-          cards: cardDetails, 
-          byRarity: byRarity
-        })        
+        }
+        cardDetails.push(cardDetail)
+        byRarity[cardType.rarity].push(cardDetail)
       })
 
-      this.cardSetsLoaded.next(null);
+      var cardSetDetail: CardSetDetail = {
+        cardSet: cardSet,
+        cards: cardDetails, 
+        byRarity: byRarity,
+        cardPacks: []
+      }
+      
+      this.cardSets.push(cardSetDetail)      
+      
+      var alternateMax = 4
+      cardSetDetail.cardPacks.push({
+        set: cardSetDetail,
+        cardCount: 6,
+        foilBoost: 0,
+        texture: "base",
+        adjustment: "common",
+        alternateMax: alternateMax,
+        currentAlternate: Math.floor(Math.random() * alternateMax),
+        baseCost: 20 * Math.pow(18, cardSetDetail.cardSet.id)
+      })
+      cardSetDetail.cardPacks.push({
+        set: cardSetDetail,
+        cardCount: 6,
+        foilBoost: 0,
+        texture: "base",
+        adjustment: "premium",
+        alternateMax: 1,
+        currentAlternate: 0,
+        baseCost: 95 * Math.pow(18, cardSetDetail.cardSet.id)
+      })
+      cardSetDetail.cardPacks.push({
+        set: cardSetDetail,
+        cardCount: 6,
+        foilBoost: 0,
+        texture: "base",
+        adjustment: "deluxe",
+        alternateMax: 1,
+        currentAlternate: 0,
+        baseCost: 225 * Math.pow(18, cardSetDetail.cardSet.id)
+      })
+    })
+
+    this.cardSetsLoaded.next(null);
   }
 }

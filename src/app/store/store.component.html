@@ -1,1 +1,26 @@
-<p>store works!</p>
+<div id="store-section">
+    <div id="store-packs" *ngIf="cardPacks != undefined">
+        <div id="store-packs-holder" *ngFor="let pack of cardPacks">
+            <app-pack-model  [pack]="pack"></app-pack-model>
+            <div id="pack-information">
+                <div id="pack-count">
+                    <div id="pack-count-amount">
+                        <img src="assets/production_global.png">
+                        {{pack.cardCount}}
+                    </div>
+                    <div id="pack-count-foil">
+                        <img src="assets/production_global.png">
+                        +{{pack.foilBoost}}
+                    </div>
+                </div>
+                <div id="pack-cost">
+                    <img src="assets/production_global.png">
+                    ${{getPrice(pack)}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="store-purchase">
+    
+    </div>
+</div>
