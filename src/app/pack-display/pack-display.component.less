@@ -17,3 +17,68 @@
     box-shadow: 2px 2px rgba(0, 0, 0, 0.8), -2px 2px rgba(0, 0, 0, 0.8), 
         2px -2px rgba(0, 0, 0, 0.8), -2px -2px rgba(0, 0, 0, 0.8);
 }
+
+.panel-interior {
+    overflow-y: scroll
+}
+
+#cards-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    user-select: none;
+}
+
+.card-holder{
+    padding: 4px;
+    padding-top: 8px;
+    display: flex;
+    flex-direction: column;
+    flex:1;
+    background-color: rgba(0,0,0,.2);
+}
+
+app-card {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 280px;
+    perspective: 800px;
+    image-rendering: pixelated;
+}
+
+#pack-close {
+    position: absolute;
+    left: 50%;
+    top: unset;
+    bottom: 30px;
+    width: 120px;
+    height: 60px;
+    line-height: 60px;
+    background-color: green;
+    text-align: center;
+    transform: translateX(-50%);
+    border-radius: 10px;
+    border: 1px solid black;
+    color: white;
+    font-family: Arial;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 0 0 4px black, 0 0 1px black, 0 0 4px black, 0 0 1px black, 
+        0 0 4px black, 0 0 1px black, 0 0 4px black, 0 0 1px black;
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+        filter: brightness(1.2);
+        transform: translate(-50%, 1%)
+    }
+
+    &:active {
+        filter: brightness(1.3);
+        transform: translate(-50%, 2%)
+    }
+}

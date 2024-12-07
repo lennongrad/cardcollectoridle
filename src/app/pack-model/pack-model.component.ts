@@ -29,6 +29,8 @@ export class PackModelComponent implements AfterViewInit, OnChanges  {
 
   mouseIn: boolean = false
 
+  rectLight?: THREE.RectAreaLight
+
   constructor(private element: ElementRef) {}
 
   ngAfterViewInit(): void {
@@ -66,11 +68,10 @@ export class PackModelComponent implements AfterViewInit, OnChanges  {
     
     const width = 15;
     const height = 15;
-    const intensity = 6;
-    const rectLight = new THREE.RectAreaLight( 0xffffff, intensity,  width, height );
-    rectLight.position.set( 0, 5, 8 );
-    rectLight.lookAt( 0, 0, 0 );
-    scene.add( rectLight); 
+    this.rectLight = new THREE.RectAreaLight( 0xffffff, 2,  width, height );
+    this.rectLight.position.set( 0, 5, 8 );
+    this.rectLight.lookAt( 0, 0, 0 );
+    scene.add(this.rectLight); 
 
     const camera = new THREE.PerspectiveCamera(
       75,
@@ -161,9 +162,14 @@ export class PackModelComponent implements AfterViewInit, OnChanges  {
     this.lastMoveY = Math.max(-1, Math.min(1, 2 * event.offsetY / this.canvasSizes.height - 1))
   }
 
+  onMouseIn() {
+    this.rectLight!.intensity = 6;
+  }
+
   onMouseOut(event: MouseEvent) {
     this.mouseIn = false
     this.flipPack = false
+    this.rectLight!.intensity = 2
     //this.lastMoveX = 0
     //this.lastMoveY = 0
   }
