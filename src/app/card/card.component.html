@@ -1,42 +1,44 @@
-<div id="total-card" (mousemove)="onMouseMove($event)" (mouseout)="onMouseOut($event)" [style]="getCardStyle()">
-    <div id="holographism" *ngIf="isFoil">
-        <div id="foiling"></div>
-        <div id="glow" [style]="getGlowStyle()"></div>
-        <div id="specular" [style]="getSpecularStyle()" style="background-image: url('assets/holographic_specular.png')"></div>
-    </div>
-    <div id="card-out" *ngIf="card == undefined">
-        <div id="card-back" style="background-image: url('assets/checkerboard_blank.png')">
-            <img src="assets/unknown.png">
+<div id="card-position"  (mousemove)="onMouseMove($event)" (mouseout)="onMouseOut($event)" >
+    <div id="total-card" [style]="getCardStyle()">
+        <div id="holographism">
+            <div id="foiling" *ngIf="isFoil && card != undefined"></div>
+            <div id="glow" [style]="getGlowStyle()"></div>
+            <div id="specular" *ngIf="isFoil && card != undefined" [style]="getSpecularStyle()" style="background-image: url('assets/holographic_specular.png')"></div>
         </div>
-    </div>
-    <div id="card-out" *ngIf="card != undefined">
-        <div id="card-in">
-            <div id="cost-holder">
-                <div id="cost-holder-holder">
-                    <img [src]="'assets/pip_' + card.cost + '.png'">
+        <div id="card-out" *ngIf="card == undefined">
+            <div id="card-back" style="background-image: url('assets/checkerboard_blank.png')">
+                <img src="assets/unknown.png">
+            </div>
+        </div>
+        <div id="card-out" *ngIf="card != undefined">
+            <div id="card-in">
+                <div id="cost-holder">
+                    <div id="cost-holder-holder">
+                        <img [src]="'assets/pip_' + card.cost + '.png'">
+                    </div>
                 </div>
-            </div>
-            <div id="section-header" class="section" [style]="{fontSize: fontSizeLarge + 'px'}">
-                <div id="header-name">{{card.title}}</div>
-            </div>
-            <div id="section-art" class="section">
-                <div id="art-background" style="background-image: url('assets/checkerboard_blank.png')">
-                    <div id="art-color"></div>
+                <div id="section-header" class="section" [style]="{fontSize: fontSizeLarge + 'px'}">
+                    <div id="header-name">{{card.title}}</div>
                 </div>
-                <div id="art-image">
-                    <div id="art-shadow"></div>
-                    <img [src]="'assets/monsters/' + card.icon + '.png'"/>
+                <div id="section-art" class="section">
+                    <div id="art-background" style="background-image: url('assets/checkerboard_blank.png')">
+                        <div id="art-color"></div>
+                    </div>
+                    <div id="art-image">
+                        <div id="art-shadow"></div>
+                        <img [src]="'assets/monsters/' + card.icon + '.png'"/>
+                    </div>
                 </div>
-            </div>
-            <div id="section-typeline" class="section" [style]="{fontSize: fontSizeMedium + 'px'}">
-            <div id="typeline-holder">{{card.subtype}}</div>
-            </div>
-            <div id="section-set" class="section" [style]="{fontSize: fontSizeMedium + 'px'}">
-            <img [src]="'assets/set_' + card.set.icon + '.png'">
-            </div>
-            <div id="section-vp">
-                <img [src]="'assets/star-' + card.element.toLocaleLowerCase() + '.svg'">
-                <div id="vp-value">{{card.stars}}</div>
+                <div id="section-typeline" class="section" [style]="{fontSize: fontSizeMedium + 'px'}">
+                <div id="typeline-holder">{{card.subtype}}</div>
+                </div>
+                <div id="section-set" class="section" [style]="{fontSize: fontSizeMedium + 'px'}">
+                <img [src]="'assets/set_' + card.set.icon + '.png'">
+                </div>
+                <div id="section-vp">
+                    <img [src]="'assets/star-' + card.element.toLocaleLowerCase() + '.svg'">
+                    <div id="vp-value">{{card.stars}}</div>
+                </div>
             </div>
         </div>
     </div>

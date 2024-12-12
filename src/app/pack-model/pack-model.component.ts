@@ -111,8 +111,10 @@ export class PackModelComponent implements AfterViewInit, OnChanges  {
 
       if(this.flipPack){
         this.flipPackDisplacement = Math.min(1, this.flipPackDisplacement += .1)
-      } else {
+        this.model!.position.z = 2
+      } else if(this.model != undefined) {
         this.flipPackDisplacement *= .9
+        this.model!.position.z = -2.7
       }
 
       // Render

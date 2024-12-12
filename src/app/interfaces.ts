@@ -109,6 +109,11 @@ export interface CardPackCard {
     foilCount: number
 }
 
+export interface Discount {
+  amount: number,
+  discount: number
+}
+
 // Managing viewable windows
 export type WindowType = "Store" | "Binder" | "Achievements" | "Settings";
 

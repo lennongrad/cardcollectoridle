@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DataManageService } from './data-manage.service';
-import { CardDetail, CardPackCard, CardRarity, CardSet, CardSetDetail, CardType, PackType, SavedCardDetail, SavedSetDetail } from './interfaces';
+import { CardDetail, CardPackCard, CardRarity, CardSet, CardSetDetail, CardType, Discount, PackType, SavedCardDetail, SavedSetDetail } from './interfaces';
 import { Subject, Subscription } from 'rxjs';
 import { randomItem } from './helpers';
 import { RGBA_ASTC_10x10_Format } from 'three';
@@ -205,5 +205,15 @@ export class CollectionService {
     })
 
     this.cardSetsLoaded.next(null);
+  }
+
+  getPrice(packType: PackType, discount?: Discount): number {
+    var realPrice = packType.baseCost
+
+    if(discount != undefined){
+      realPrice *= (1 - discount.discount) * discount.amount
+    }
+
+    return realPrice
   }
 }

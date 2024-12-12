@@ -1,13 +1,32 @@
-<div id="pack-back" *ngIf="packContents != undefined"></div>
+<div id="pack-back" (click)="packContents = undefined" [class.shown]="packContents != undefined"></div>
 <div id="pack-display" class="panel" *ngIf="packContents != undefined">
     <div class="panel-interior">
         <div id="cards-container">
-            <div class="card-holder"*ngFor="let card of packContents" >
-                <app-card [card]="card.card.cardType"></app-card>
+            <div class="card-holder" *ngFor="let card of packContents; index as i" >
+                <div class="card-display">
+                    <div class="card-container" [style.animationDelay]="0.1 * i + 's'">
+                        <app-card [flip]=true [assignedCard]="clickedCards[i] ? card.card.cardType : undefined"
+                        [isFoil]="card.foilCount > 0" (click)="clickedCards[i] = true"></app-card>
+                    </div>
+                    <div class="card-count">
+                        <div class="card-count-main"  [class.shown]="clickedCards[i]">
+                            <img src="assets/chest.png">
+                            <span>{{card.count}}</span>
+                        </div>
+                        <div class="card-count-foil"  [class.shown]="clickedCards[i]">
+                            <img src="assets/gem.png">
+                            <span>{{card.foilCount}}</span>
+                        </div>
+                    </div>
+                </div>    
             </div>
+            <div class="card-holder" style="opacity: 0" *ngFor="let _ of getBurnerCount()"></div>
         </div>
     </div>
 </div>
-<div id="pack-close"  *ngIf="packContents != undefined" class="panel" (click)="packContents = undefined">
+<div id="pack-close" class="panel pack-button" [class.shown]="packContents != undefined" (click)="packContents = undefined">
     <div id="pack-close-interior">Close</div>
+</div>
+<div id="pack-open" class="panel pack-button"  [class.shown]="packContents != undefined" (click)="openAll()">
+    <div id="pack-close-interior">Open All</div>
 </div>

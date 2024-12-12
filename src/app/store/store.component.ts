@@ -1,12 +1,8 @@
 import { Component, Input } from "@angular/core";
-import { PackType } from "../interfaces";
+import { Discount, PackType } from "../interfaces";
 import { CollectionService } from "../collection.service";
 import { Beautify } from "../beautify";
-
-interface Discount {
-  amount: number,
-  discount: number
-}
+import { ProductionService } from "../production.service";
 
 @Component({
   selector: 'app-store',
@@ -25,19 +21,24 @@ export class StoreComponent  {
     { amount: 100, discount: 0.2 },
   ]
 
-  constructor(private collectionService: CollectionService){}
+  constructor(private collectionService: CollectionService, private productionService: ProductionService){
+    setTimeout(() => this.purchase( this.cardPacks![0], {amount: 76, discount: 1 }), 10)
+  }
 
   getPrice(packType: PackType, discount?: Discount): string {
-    var realPrice = packType.baseCost
+    return Beautify(this.collectionService.getPrice(packType, discount), 0)
+  }
 
-    if(discount != undefined){
-      realPrice *= (1 - discount.discount) * discount.amount
-    }
-
-    return Beautify(realPrice, 0)
+  canAfford(packType: PackType, discount?: Discount): boolean {
+    return this.collectionService.getPrice(packType, discount) <= this.productionService.cash
   }
 
   purchase(packType: PackType, discount: Discount) {
-    this.collectionService.buyPack(Array(discount.amount).fill(packType))
+    var price = this.collectionService.getPrice(packType, discount)
+
+    if(price <= this.productionService.cash){
+      this.productionService.cash -= price
+      this.collectionService.buyPack(Array(discount.amount).fill(packType))
+    }
   }
 }

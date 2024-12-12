@@ -7,19 +7,19 @@
         <div *ngFor="let card of activeCardSet.cards; index as i" class="card-holder"
             (click)="clickCard(card)" (contextmenu)="rightClickCard(card)">
             <app-card 
-                [card]="(card.maxCount + card.maxFoilCount > 0) ? card.cardType : undefined"
+                [assignedCard]="(card.maxCount + card.maxFoilCount > 0) ? card.cardType : undefined"
                 [isFoil]="card.foilCount > 0"></app-card>
             <div class="card-count">
                 <div class="card-count-main">
-                    <img src="assets/production_global.png">
-                    <span>{{card.count}}</span>
+                    <img src="assets/chest.png">
+                    <span>x{{card.count}}</span>
                 </div>
                 <div class="card-count-foil">
-                    <img src="assets/production_global.png">
-                    <span>{{card.foilCount}}</span>
+                    <img src="assets/gem.png">
+                    <span>x{{card.foilCount}}</span>
                 </div>
-                <div class="card-count-cost">
-                    <img src="assets/production_global.png">
+                <div class="card-count-cost" style="display:none">
+                    <img src="assets/bag.png">
                     <span>${{getPrice(card)}}</span>
                 </div>
             </div>

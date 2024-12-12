@@ -1,3 +1,9 @@
+@keyframes unshrink {
+    0% { transform: translate(-4000px, -1000px) scale(0); pointer-events: none; }
+    80% { transform: translate(-50%, 0) scale(.5); pointer-events: none; }
+    100% { transform: translate(-50%, 0) scale(1); }
+}
+
 #pack-back {
     position: absolute;
     left: 0%;
@@ -5,6 +11,13 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0,0,0,.9);
+    opacity: 1;
+    transition: .3s opacity;
+
+    &:not(.shown) {
+        opacity: 0;
+        pointer-events: none;
+    }
 }
 
 #pack-display {
@@ -29,6 +42,7 @@
     align-items: center;
     justify-content: space-evenly;
     user-select: none;
+    perspective: 800px;
 }
 
 .card-holder{
@@ -37,20 +51,64 @@
     display: flex;
     flex-direction: column;
     flex:1;
-    background-color: rgba(0,0,0,.2);
 }
 
-app-card {
+.card-display { 
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-    width: 200px;
-    height: 280px;
-    perspective: 800px;
     image-rendering: pixelated;
+    perspective: 100px;
+    align-items: center;
+    flex-direction: column;
 }
 
-#pack-close {
+.card-container {
+    position: relative;
+    transform: scale(0);
+    left: 50%;
+    width: 200px;
+    height: 280px;
+    animation: .3s unshrink forwards;
+    animation-delay: 2s;
+}
+
+.card-count {
+    display: flex;
+    color: white;
+    margin-top: -102px;
+    transition: .3s opacity;
+    font-family: "Monomaniac One", sans-serif;
+    background-color: rgba(0,0,0,.3);
+    border-radius: 5px 5px 20px 20px;
+    padding-top: 110px;
+    padding-bottom: 8px;
+    pointer-events: none;
+
+    div {
+        flex: 1;
+        text-align: center;
+        font-size: 14px;
+        line-height: 14px;
+        filter: drop-shadow(0 0 1px black) drop-shadow(0 0 1px black) drop-shadow(0 0 1px black)
+        ; opacity: 1;
+        
+        &:not(.shown){
+            opacity: 0;
+        }
+    }
+
+    img {
+        vertical-align: top;
+        margin-right: 3px;
+    }
+
+    .card-count-cost {
+        flex: 1.5;
+    }
+}
+
+.pack-button {
     position: absolute;
     left: 50%;
     top: unset;
@@ -60,7 +118,6 @@ app-card {
     line-height: 60px;
     background-color: green;
     text-align: center;
-    transform: translateX(-50%);
     border-radius: 10px;
     border: 1px solid black;
     color: white;
@@ -71,6 +128,19 @@ app-card {
         0 0 4px black, 0 0 1px black, 0 0 4px black, 0 0 1px black;
     cursor: pointer;
     user-select: none;
+    
+    transform: translateX(-50%) scale(1);
+    transition: .2s transform;
+
+    &:not(.shown) {
+        transform: translateX(-50%) scale(0);
+        pointer-events: none;
+    }
+
+    &#pack-open {
+        bottom: unset;
+        top: 30px;
+    }
 
     &:hover {
         filter: brightness(1.2);

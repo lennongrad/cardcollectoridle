@@ -70,7 +70,7 @@
     justify-content: center;
 
     .purchase-amount {
-        background-color: #155066;
+        background-color: #0f2e3c;
         border-radius: 10px;
         padding: 4px 8px;
         margin-top: 5px;
@@ -80,12 +80,17 @@
         transition: .1s;
         height: 18px;
         line-height: 18px;
+        user-select: none;
 
         &:hover {
-            background-color: #225972;
+            background-color: #124354;
             height: 30px;
             line-height: 30px;
             transform: scaleX(1.1);
+        }
+
+        &.affordable{
+            background-color: #225972;
         }
         
         div {
@@ -106,5 +111,41 @@
                 font-size: 10px;
             }
         }
+    }
+}
+
+@media (max-width: 1200px) and (min-width: 1100px) {
+    .purchase-amount {
+        font-size: 11px !important;
+        padding: 2px !important;
+    }
+}
+
+@media (max-width: 1100px) and (min-width: 1010px) {
+    .purchase-amount {
+        font-size: 10px !important;
+        padding: 2px !important;
+        flex-direction: column;
+        height: 40px !important;
+    }
+}
+
+@media (max-width: 1010px) {
+    #store-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    #store-purchase {
+        max-width: unset;
+        flex-direction: row;
+        align-items: center;
+        padding: 0 5px;
+    }
+
+    .purchase-amount {
+        margin: 5px;
+        margin-bottom: -5px;
+        height: 40px !important;
     }
 }

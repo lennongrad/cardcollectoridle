@@ -1,6 +1,7 @@
 import { Component, ElementRef, HostBinding, HostListener, Input } from '@angular/core';
 import { CardDetail, CardElement, CardRarity, CardType } from '../interfaces';
 import { DomSanitizer } from '@angular/platform-browser';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-card',
@@ -8,12 +9,26 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrl: './card.component.less'
 })
 export class CardComponent {
-  @Input() card?: CardType;
   @Input() isFoil: boolean = false;
+  @Input() flip: boolean = false;
+
+  card?: CardType;
+  _card?: CardType;
+  @Input() set assignedCard(value: CardType | undefined) {
+    if(this._card != value && this.flip){
+      this._card = value
+      this.overrideX = 0
+      this.onCentisecond()
+    } else if (this._card != value) {
+      this._card = value
+      this.card = value
+    }
+  }
 
   // card sizes
   crownWidth: number = 200;
   crownHeight: number = 80;
+
   // font sizes
   fontSizeTiny: number = 0;
   fontSizeSmall: number = 0;
@@ -22,6 +37,7 @@ export class CardComponent {
 
   lastMoveX: number = 0
   lastMoveY: number = 0
+  overrideX?: number;
   
   width: number = 0
   height: number = 0
@@ -87,26 +103,36 @@ export class CardComponent {
   }
 
   getCardStyle(): any {
-    var yDegrees = -this.lastMoveY * 20
+    var extra = ""
     var xDegrees = this.lastMoveX * 20
+    var yDegrees = -this.lastMoveY * 20
+
+    if(this.overrideX != undefined){
+      xDegrees = this.overrideX * 20
+      if(xDegrees < -90){
+         extra += "scaleX(-1) "
+      }
+    }
 
     return {
-      "transform": `rotate3d(1, 0, 0, ${yDegrees}deg) rotate3d(0, 1, 0, ${xDegrees}deg)`,
+      "transform": `perspective(800px) rotate3d(1, 0, 0, ${yDegrees}deg) rotate3d(0, 1, 0, ${xDegrees}deg) ${extra}`,
     }
   }
 
   getGlowStyle(): any{
-    var xPosition = (this.lastMoveX + 1)/2 * 80
-    var yPosition = (this.lastMoveY + 1)/2 * 80
+    var xPosition = ((1 - this.lastMoveX) + 1)/2 * 80
+    var yPosition = ((1 - this.lastMoveY) + 1)/2 * 80
+    var opacity = this.isFoil ? 0.3 : 0.2
 
     return {
-      "background": `radial-gradient(circle at ${xPosition}% ${yPosition}%, white 20%, black 80%, black)`
+      "background": `radial-gradient(circle at ${xPosition}% ${yPosition}%, white 20%, black 80%, black)`,
+      "opacity": opacity
     }
   }
 
   getSpecularStyle(): any{
-    var xPosition = (this.lastMoveX + 1)/2 * 80
-    var yPosition = (this.lastMoveY + 1)/2 * 80
+    var xPosition = ((1 - this.lastMoveX) + 1)/2 * 80
+    var yPosition = ((1 - this.lastMoveY) + 1)/2 * 80
 
     if(this.lastMoveX == 0){
       return {"opacity": .3}
@@ -119,6 +145,20 @@ export class CardComponent {
 
   ngOnInit(){
     this.setCardDimensions();
+  }
+
+  onCentisecond() {
+    if(this.overrideX != undefined){
+      this.overrideX -= .2
+      if(this.overrideX < -4.5){
+        this.card = this._card
+      } 
+      if (this.overrideX < -9) {
+        this.overrideX = undefined
+      }
+
+      setTimeout(() => this.onCentisecond(), 1)
+    }
   }
 
   onMouseMove(event: MouseEvent) {  

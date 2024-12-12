@@ -22,8 +22,10 @@
         </div>
     </div>
     <div id="store-purchase" *ngIf="cardPacks != undefined">
-        <div *ngFor="let discount of discounts" class="purchase-amount"
-            [id]="'purchase-' + discount.amount" (click)="purchase(cardPacks[chosenPackID], discount)">
+        <div *ngFor="let discount of discounts" class="purchase-amount" 
+            [class.affordable]="canAfford(cardPacks[chosenPackID], discount)"
+            [id]="'purchase-' + discount.amount" 
+            (click)="purchase(cardPacks[chosenPackID], discount)">
             <div class="purchase-title">Buy x{{discount.amount}}</div>
             <div class="purchase-cost">
                 <img src="assets/production_global.png">
