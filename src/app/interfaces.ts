@@ -121,3 +121,33 @@ export interface WindowOption {
     title: WindowType,
     image: string
 }
+
+// Achivements
+
+
+export interface AchievementData{
+    id: number,
+    name: string,
+    icon: string,
+    text: string,
+    difficulty: number,
+    completionGoals: Record<string, number>,
+    completionTriggers: Record<string, number>,
+}
+
+export interface Achievement{
+    achievementData: AchievementData,
+    seenTriggers: Record<string, number>,
+    completed: boolean
+}
+
+export interface SavedAchievement{
+    achievementDataID: number,
+    seenTriggers: Record<string, number>,
+    completed: boolean
+}
+
+export interface Trigger {
+    type: string,
+    amount: number
+}

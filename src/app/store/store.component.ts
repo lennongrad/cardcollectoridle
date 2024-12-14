@@ -22,7 +22,7 @@ export class StoreComponent  {
   ]
 
   constructor(private collectionService: CollectionService, private productionService: ProductionService){
-    setTimeout(() => this.purchase( this.cardPacks![0], {amount: 76, discount: 1 }), 10)
+    //setTimeout(() => this.purchase( this.cardPacks![0], {amount: 76, discount: 1 }), 10)
   }
 
   getPrice(packType: PackType, discount?: Discount): string {

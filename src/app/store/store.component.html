@@ -3,20 +3,19 @@
         <div id="store-packs-holder" *ngFor="let pack of cardPacks; index as i"
             [class.isCurrent]="chosenPackID == i" (click)="chosenPackID = i">
             <app-pack-model  [pack]="pack"></app-pack-model>
+            <div id="pack-cost" style="background-image: url('assets/salesplosion.png')">
+                ${{getPrice(pack)}}
+            </div>
             <div id="pack-information">
                 <div id="pack-count">
                     <div id="pack-count-amount">
-                        <img src="assets/production_global.png">
+                        <img src="assets/chest.png">
                         {{pack.cardCount}}
                     </div>
                     <div id="pack-count-foil">
-                        <img src="assets/production_global.png">
+                        <img src="assets/gem.png">
                         +{{pack.foilBoost}}
                     </div>
-                </div>
-                <div id="pack-cost">
-                    <img src="assets/production_global.png">
-                    ${{getPrice(pack)}}
                 </div>
             </div>
         </div>
@@ -26,9 +25,8 @@
             [class.affordable]="canAfford(cardPacks[chosenPackID], discount)"
             [id]="'purchase-' + discount.amount" 
             (click)="purchase(cardPacks[chosenPackID], discount)">
-            <div class="purchase-title">Buy x{{discount.amount}}</div>
+            <div class="purchase-title"><span class="buy-text">Buy </span>x{{discount.amount}}</div>
             <div class="purchase-cost">
-                <img src="assets/production_global.png">
                 ${{getPrice(cardPacks[chosenPackID], discount)}}
                 <span class="purchase-discount">
                     ({{(1 - discount.discount) * 100}}%)

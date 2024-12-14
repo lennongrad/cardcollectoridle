@@ -74,6 +74,10 @@ var numberFormatters=
 
 export var Beautify=function(val:any, floats:any)
 {
+	if(isNaN( Number(val))){
+		console.log(val)
+	}
+	val = Number(val)
 	var negative=(val<0);
 	var decimal='';
 	var fixed=val.toFixed(floats);

@@ -13,7 +13,7 @@ export class WindowService {
     { title: "Settings", image: "window_settings.png" },
   ]
 
-  activeWindow: WindowType = "Binder";
+  activeWindow: WindowType = "Achievements";
 
   getWindowOptions(): Array<WindowOption> {
     return this.windowOptions;

@@ -1,7 +1,7 @@
 <div id="pack-back" (click)="packContents = undefined" [class.shown]="packContents != undefined"></div>
-<div id="pack-display" class="panel" *ngIf="packContents != undefined">
+<div id="pack-display" class="panel" [class.shown]="packContents != undefined">
     <div class="panel-interior">
-        <div id="cards-container">
+        <div id="cards-container" *ngIf="packContents != undefined">
             <div class="card-holder" *ngFor="let card of packContents; index as i" >
                 <div class="card-display">
                     <div class="card-container" [style.animationDelay]="0.1 * i + 's'">

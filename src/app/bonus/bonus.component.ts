@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Bonus } from '../interfaces';
 import { ProductionService } from '../production.service';
 import { interval } from 'rxjs';
+import { Beautify } from '../beautify';
 
 @Component({
   selector: 'app-bonus',
@@ -24,6 +25,10 @@ export class BonusComponent {
     bonus.x += (Math.random() * 20) - 10
     bonus.y += (Math.random() * 20) - 10
     this.bonuses.push(bonus)
+  }
+
+  getValue(bonus: Bonus){
+    return Beautify(bonus.value, 2)
   }
 
   onCentisecond(){

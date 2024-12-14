@@ -16,6 +16,7 @@ export class PackDisplayComponent {
       this.packContents = cards
       this.clickedCards = Array(cards.length).fill(false)
     })
+
   }
 
   openAll() {

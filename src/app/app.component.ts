@@ -4,6 +4,7 @@ import { ProductionService } from './production.service';
 import { WindowService } from './window.service';
 import { WindowType } from './interfaces';
 import { CollectionService } from './collection.service';
+import { AchievementsService } from './achievements.service';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ export class AppComponent {
   constructor(
     private productionService: ProductionService,
     private collectionService: CollectionService,
+    private achievementService: AchievementsService,
     private windowService: WindowService){}
 
   getActiveWindow(): WindowType {
@@ -28,6 +30,7 @@ export class AppComponent {
       case "r": 
         this.productionService.resetSave();  
         this.collectionService.resetSave(); 
+        this.achievementService.resetSave();
         location.reload(); 
         break;
     }

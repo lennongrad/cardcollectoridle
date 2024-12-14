@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { DataManageService } from './data-manage.service';
-import { CardDetail, CardPackCard, CardRarity, CardSet, CardSetDetail, CardType, Discount, PackType, SavedCardDetail, SavedSetDetail } from './interfaces';
-import { Subject, Subscription } from 'rxjs';
+import { CardDetail, CardPackCard, CardRarity, CardSet, CardSetDetail, CardType, Discount, PackType, SavedCardDetail, SavedSetDetail, Trigger } from './interfaces';
+import { Subject } from 'rxjs';
 import { randomItem } from './helpers';
-import { RGBA_ASTC_10x10_Format } from 'three';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +11,8 @@ export class CollectionService {
   cardSets: Array<CardSetDetail> = []
   skipSaving: boolean = false;
   
-  public cardSetsLoaded = new Subject();
+  public cardSetsLoaded = new Subject()
+  public triggerEmit: Subject<Trigger> = new Subject()
   public packOpened = new Subject<Array<CardPackCard>>()
 
   constructor(private dataManageService: DataManageService) {
@@ -125,6 +125,34 @@ export class CollectionService {
     localStorage.setItem("setDetails", "");
     localStorage.setItem("cardDetails", "");
     this.skipSaving = true
+  }
+
+  addGoals(goals: Record<string, number>){
+    this.cardSets.forEach(set => {
+      set.cards.forEach(card => {
+        (["", "Vanilla", "Fire", "Water", "Earth", "Wind"]).forEach((element: string)  => {
+          if(element == "" || card.cardType.element == element){
+            (["", "Foil"]).forEach((type: string) => {
+              var relevantCount = type == "" ? card.count : card.foilCount
+              if(relevantCount >= 1){
+                (["", "Unique", "10x", "100x"]).forEach((denomination: string) => {
+                  if(denomination == "" || denomination == "Unique" 
+                    || (denomination == "10x" && relevantCount >= 10) 
+                    || (denomination == "100x" && relevantCount >= 100)){
+                      var destination = `ownCards${denomination}${type}${element}`
+                      if(!Object.keys(goals).includes(destination)){
+                        goals[destination] = 0
+                      }
+                      goals[destination] += (denomination == "" ? relevantCount : 1)
+                  }
+                })
+              }
+            })
+          }
+        })
+      })
+    })
+  
   }
 
   loadCardDetails(loadedCardSets: Array<CardSet>, savedCardDetails: Array<SavedCardDetail>){

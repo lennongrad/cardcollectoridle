@@ -27,8 +27,16 @@
     width: 80%;
     height: 80%;
     transform: translate(-50%, -50%);    
+    transition: .3s;
+    opacity: 1;
     box-shadow: 2px 2px rgba(0, 0, 0, 0.8), -2px 2px rgba(0, 0, 0, 0.8), 
         2px -2px rgba(0, 0, 0, 0.8), -2px -2px rgba(0, 0, 0, 0.8);
+
+    &:not(.shown){
+        transform: translate(-50%, -50%) scale(0); 
+        opacity: 0;   
+        pointer-events: none;
+    }
 }
 
 .panel-interior {

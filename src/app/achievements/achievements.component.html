@@ -1,1 +1,11 @@
-<p>achievements works!</p>
+<div id="achievement-main">
+    <div id="achievement-holder" [style.width]="getWidth() + 'px'">
+        <div class="achievement-display" 
+            *ngFor="let achievement of getAchievements(); index as i" 
+            [class.parity]="getParity(i)" [class.completed]="achievement.completed"
+            (contextmenu)="false">
+                <img [src]="'assets/achievement/' + achievement.achievementData.icon + '.png'"/>
+                <div class="difficulty">{{"★".repeat(achievement.achievementData.difficulty)}}</div>
+        </div>
+    </div>
+</div>

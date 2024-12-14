@@ -1,3 +1,9 @@
+@keyframes jiggle {
+    0% { transform: rotate(-13deg) }
+    50% { transform: rotate(-5deg) }
+    100% { transform: rotate(-13deg) }
+}
+
 #store-section {
     display: flex;
     flex-direction: row;
@@ -16,6 +22,7 @@
 }
 
 #store-packs-holder {
+    position: relative;
     border-radius: 10px;
     margin-right: 5px;
     cursor: pointer;
@@ -24,11 +31,33 @@
 
     &:hover {
         background-color: #155066;
+
+        #pack-cost {
+            animation: .1s jiggle;
+            opacity: .4;
+        }
     }
 
     &.isCurrent, &:active{
         background-color: #225972;
     }
+}
+
+#pack-cost{
+    position: absolute;
+    right: 2px;
+    bottom: 40px;
+    background-size: 100% 100%;
+    padding: 16px;
+    font-size: 28px;
+    font-family: "Monomaniac One", sans-serif;
+    color: black;
+    line-height: 38px;
+    text-shadow: 0 0 3px #F33;
+    padding-top: 10px;
+    transform: rotate(-13deg);
+    opacity: .8;
+    transition: .1s opacity
 }
 
 #pack-information {
@@ -97,9 +126,6 @@
             flex: 1;
         }
 
-        .purchase-title {
-        }
-
         .purchase-cost {
             padding-left: 10px;
 
@@ -147,5 +173,9 @@
         margin: 5px;
         margin-bottom: -5px;
         height: 40px !important;
+    }
+
+    .buy-text {
+        display: none
     }
 }

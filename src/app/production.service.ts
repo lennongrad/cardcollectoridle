@@ -1,19 +1,22 @@
 import { EventEmitter, Injectable, OnInit } from '@angular/core';
 import { Beautify } from './beautify';
-import { Bonus, Position, ProductionDetail, ProductionOutput, ProductionType, SavedProductionDetail } from './interfaces';
+import { Achievement, Bonus, Position, ProductionDetail, ProductionOutput, ProductionType, SavedProductionDetail, Trigger } from './interfaces';
 import { interval, Subject } from 'rxjs';
 import { DataManageService } from './data-manage.service';
+import { AchievementsService } from './achievements.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductionService {
-  cash: number = 0;
-  exp: number = 0;
+  cash: number = 0
+  exp: number = 0
+  level: number = 1
 
   skipSaving = false;
 
   public bonusEmit: Subject<Bonus> = new Subject(); 
+  public triggerEmit: Subject<Trigger> = new Subject();
   public productionEmit: Subject<ProductionOutput> = new Subject();
 
   productionDetails: Array<ProductionDetail> = [];
@@ -29,9 +32,15 @@ export class ProductionService {
     if(potentialCash != null && potentialCash != ""){
       this.cash = Number(potentialCash)
     }
+
     var potentialExp = localStorage.getItem("exp")
     if(potentialExp != null && potentialExp != ""){
       this.exp = Number(potentialExp)
+    }
+
+    var potentialLevel = localStorage.getItem("level")
+    if(potentialLevel != null && potentialLevel != ""){
+      this.level = Number(potentialLevel)
     }
 
     this.dataManageService.beginParsingProduction().subscribe(
@@ -89,13 +98,26 @@ export class ProductionService {
     localStorage.setItem("productionDetails", JSON.stringify(savedProductionDetails));
     localStorage.setItem("cash", String(this.cash))
     localStorage.setItem("exp", String(this.exp))
+    localStorage.setItem("level", String(this.level))
   }
 
   resetSave() {
     localStorage.setItem("productionDetails", "");
     localStorage.setItem("cash", "");
     localStorage.setItem("exp", "");
+    localStorage.setItem("level", "")
     this.skipSaving = true;
+  }
+  
+  earnAchievement(achievement: Achievement) {
+    for(var i = 0; i <  achievement.achievementData.difficulty; i++){
+      this.level += 1
+      this.exp += Math.ceil(this.level * Math.log(this.level))
+    }
+  }
+
+  addGoals(goals: Record<string, number>){
+
   }
 
   getProductionDetails(): Array<ProductionDetail> {
@@ -132,11 +154,11 @@ export class ProductionService {
   }
 
   getCashAmount(): string {
-    return Beautify(this.cash, 0);
+    return Beautify(this.cash, 2);
   }
 
   getExpAmount(): string {
-    return Beautify(this.exp, 0);
+    return Beautify(this.exp, 2);
   }
   
   getCriticalRate(): number {
@@ -148,9 +170,10 @@ export class ProductionService {
   }
 
   getOverallLevel(): number {
-    return this.productionDetails.reduce((acc: number, productionDetail: ProductionDetail) => {
+    /*return this.productionDetails.reduce((acc: number, productionDetail: ProductionDetail) => {
       return acc + this.getProductionLevel(productionDetail) - 1
-    }, 0) + 1
+    }, 0) + 1*/
+    return this.level
   }
 
   levelUp(productionDetail: ProductionDetail, segment: string) {
@@ -184,7 +207,7 @@ export class ProductionService {
       }
 
       var receivedExp = this.getProductionExp(productionDetail, segment)
-      this.exp += receivedExp * .8
+      this.exp += Math.floor(receivedExp * .8)
     }
   }
 
@@ -192,17 +215,22 @@ export class ProductionService {
     this.bonusEmit.next(bonus);
   }
 
+  earnCash(amount: number) {
+    this.cash += amount
+    this.triggerEmit.next({type: "earnMoney", amount: amount})
+  }
+
   clickButton(position: Position) {
     var isCritical = Math.random() < this.getCriticalRate()
-    var amount = (isCritical ? 2 : 1) * this.getOverallLevel()
+    var amount = (isCritical ? 2 : 1) * this.getOverallLevel() * 0.1
 
-    this.cash += amount;
+    this.earnCash(amount)
 
     this.emitBonus({
       x: position.x,
       y: position.y,
       timer: 200,
-      value: "+$" + String(amount)
+      value: "+$" + String(Beautify(amount, 2))
     });
 
     this.productionDetails.forEach((productionDetail: ProductionDetail) => {
@@ -210,6 +238,8 @@ export class ProductionService {
     })
 
     this.updateProgress()
+
+    this.triggerEmit.next({type: "clickButton", amount: 1})
   }
 
   updateProgress() {
@@ -218,7 +248,7 @@ export class ProductionService {
         productionDetail.currentProgress -= this.getMaxProgress(productionDetail)
 
         var finalValue = this.getProductionValue(productionDetail)
-        this.cash += finalValue
+        this.earnCash(finalValue)
         this.productionEmit.next({index: index, value: finalValue})
       }
     })
