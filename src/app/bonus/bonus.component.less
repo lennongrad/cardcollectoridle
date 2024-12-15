@@ -4,6 +4,12 @@
     100% { transform: translate(-50%, -150%); opacity: 0 }
 }
 
+@keyframes unshrink {
+    0% { transform: translate(0, 1000px) scale(0); pointer-events: none; }
+    80% { transform: translate(0, 0) scale(.5); pointer-events: none; }
+    100% { transform: translate(0, 0) scale(1); }
+}
+
 .bonus{
     position: absolute;
     pointer-events: none;
@@ -13,5 +19,32 @@
     color: white;
     animation: bonus-move 1s;
     opacity: 0;
+    overflow: hidden;
     filter: drop-shadow(0 0 1px black) drop-shadow(0 0 1px black) drop-shadow(0 0 1px black);
+}
+
+#notification-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 20px;
+    user-select: none;
+
+    app-achievementbox {
+        cursor: pointer;
+        display: block;
+        transform-origin: 50% 100%;
+
+        &:hover {
+            filter: brightness(1.1);
+            transform: translate(1px, 2px)
+        }
+
+        &:active {
+            filter: brightness(1.2);
+            transform: translate(2px, 4px)
+        }
+        
+        animation: unshrink 1s;
+    }
 }

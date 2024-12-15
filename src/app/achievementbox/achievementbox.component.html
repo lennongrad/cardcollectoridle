@@ -1,0 +1,17 @@
+<div class="panel" id="achievement-box" *ngIf="achievement != undefined">
+    <div class="panel-interior">
+        <div id="achievement-icon">
+            <img [src]="'assets/achievement/' + achievement.achievementData.icon + '.png'"/>
+            <div class="difficulty">{{"★".repeat(achievement.achievementData.difficulty)}}</div>
+        </div>
+        <div id="achievement-title">
+            {{achievement.achievementData.name}}
+        </div>
+        <div id="achievement-progress">
+            <span id="achievement-progress-sofar" 
+            [class.complete]="getValue(achievement) >= getMax(achievement)">{{Beautify(getValue(achievement))}}</span>
+            <span id="achievement-progress-bar"> / </span>
+            <span id="achievement-progress-max">{{Beautify(getMax(achievement))}}</span>
+        </div>
+    </div>
+</div>

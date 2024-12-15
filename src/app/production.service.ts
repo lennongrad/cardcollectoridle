@@ -12,6 +12,7 @@ export class ProductionService {
   cash: number = 0
   exp: number = 0
   level: number = 1
+  stars: number = 0
 
   skipSaving = false;
 
@@ -41,6 +42,11 @@ export class ProductionService {
     var potentialLevel = localStorage.getItem("level")
     if(potentialLevel != null && potentialLevel != ""){
       this.level = Number(potentialLevel)
+    }
+
+    var potentialStars = localStorage.getItem("stars")
+    if(potentialStars != null && potentialStars != ""){
+      this.stars = Number(potentialStars)
     }
 
     this.dataManageService.beginParsingProduction().subscribe(
@@ -99,6 +105,7 @@ export class ProductionService {
     localStorage.setItem("cash", String(this.cash))
     localStorage.setItem("exp", String(this.exp))
     localStorage.setItem("level", String(this.level))
+    localStorage.setItem("stars", String(this.stars))
   }
 
   resetSave() {
@@ -106,13 +113,24 @@ export class ProductionService {
     localStorage.setItem("cash", "");
     localStorage.setItem("exp", "");
     localStorage.setItem("level", "")
+    localStorage.setItem("stars", "")
     this.skipSaving = true;
   }
   
   earnAchievement(achievement: Achievement) {
-    for(var i = 0; i <  achievement.achievementData.difficulty; i++){
-      this.level += 1
-      this.exp += Math.ceil(this.level * Math.log(this.level))
+    for(var i = 0; i < achievement.achievementData.difficulty; i++){
+      this.stars += 1
+      while(this.stars >= ((this.level - 1) % 5 + 1)){
+        this.stars -= (this.level - 1) % 5 + 1
+        this.level += 1
+        this.exp += Math.ceil(this.level * Math.log(this.level))
+        this.bonusEmit.next({
+          x: 280,
+          y: 120,
+          value: "+1",
+          timer: 100
+        })
+      }
     }
   }
 

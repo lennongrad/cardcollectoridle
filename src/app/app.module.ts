@@ -15,6 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CardComponent } from './card/card.component';
 import { PackDisplayComponent } from './pack-display/pack-display.component';
 import { PackModelComponent } from './pack-model/pack-model.component';
+import { AchievementboxComponent } from './achievementbox/achievementbox.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { PackModelComponent } from './pack-model/pack-model.component';
     SettingsComponent,
     CardComponent,
     PackDisplayComponent,
-    PackModelComponent
+    PackModelComponent,
+    AchievementboxComponent
   ],
   imports: [
     BrowserModule,

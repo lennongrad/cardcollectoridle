@@ -1,3 +1,8 @@
+@keyframes animated-background {
+    from {background-position-x: 0px;}
+    to {background-position-x: calc(64px * 14);}
+}
+
 #shadow {
     position: absolute;
     left: -16px;
@@ -12,6 +17,15 @@
     display: flex;
     font-family: "Anton", sans-serif;
     user-select: none;
+
+    #border {
+        position: absolute;
+        height: 16px;
+        width: 100%;
+        top: 54px;
+        background-size: 64px 16px;
+        animation: animated-background 60s linear infinite;
+    }
 
     #subcontainer-holder{
         display: flex;

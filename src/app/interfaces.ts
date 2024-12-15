@@ -138,13 +138,16 @@ export interface AchievementData{
 export interface Achievement{
     achievementData: AchievementData,
     seenTriggers: Record<string, number>,
-    completed: boolean
+    completed: boolean,
+    pinned: boolean,
+    lastRelevantGoal: number
 }
 
 export interface SavedAchievement{
     achievementDataID: number,
     seenTriggers: Record<string, number>,
-    completed: boolean
+    completed: boolean,
+    pinned: boolean
 }
 
 export interface Trigger {

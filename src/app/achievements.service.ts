@@ -11,6 +11,9 @@ import { CollectionService } from './collection.service';
 export class AchievementsService {
   skipSaving = false;
   achievements: Array<Achievement> = [];
+  completedGoals: Record<string, number> = {}
+
+  public achievementEmit = new Subject<Achievement>();
 
   constructor(
     private productionService: ProductionService,
@@ -29,13 +32,17 @@ export class AchievementsService {
         this.achievements.push({
           achievementData: achievementDetail,
           seenTriggers: matchingLoadedData[0].seenTriggers,
-          completed: matchingLoadedData[0].completed
+          completed: matchingLoadedData[0].completed,
+          pinned: matchingLoadedData[0].pinned,
+          lastRelevantGoal: -1
         })
       } else {
         this.achievements.push({
           achievementData: achievementDetail,
           seenTriggers: {},
-          completed: false
+          completed: false,
+          pinned: false,
+          lastRelevantGoal: -1
         })
       }
     })
@@ -44,25 +51,43 @@ export class AchievementsService {
         
     var timer = interval(1000);
     timer.subscribe(() => {this.progressAchievements()})
+    
+    // for testing
+    /*setTimeout(() => this.achievementEmit.next(this.achievements[0]), 100)
+    setTimeout(() => this.achievementEmit.next(this.achievements[1]), 400)
+    setTimeout(() => this.achievementEmit.next(this.achievements[2]), 600)
+    setTimeout(() => this.achievementEmit.next(this.achievements[69]), 800)*/
 
     this.productionService.triggerEmit.subscribe(this.registerTrigger.bind(this))
     this.collectionService.triggerEmit.subscribe(this.registerTrigger.bind(this))
   }
 
   progressAchievements(currentTrigger?: string){
+    var forceSave = false
     var completedAchievements: Array<Achievement> = []
-    var completedGoals: Record<string, number> = {}
+    this.completedGoals = {}
 
-    this.productionService.addGoals(completedGoals)
-    this.collectionService.addGoals(completedGoals)
+    this.productionService.addGoals(this.completedGoals)
+    this.collectionService.addGoals(this.completedGoals)
 
     this.achievements.filter(achievement => !achievement.completed).forEach(activeAchievement => {
       var triggersFulfilled = Object.keys(activeAchievement.achievementData.completionTriggers).every(trigger => {
         return Object.keys(activeAchievement.seenTriggers).includes(trigger) && activeAchievement.seenTriggers[trigger] >= activeAchievement.achievementData.completionTriggers[trigger]
       })
       var goalsFulfilled = Object.keys(activeAchievement.achievementData.completionGoals).every(goal => {
-        return Object.keys(completedGoals).includes(goal) && completedGoals[goal] >= activeAchievement.achievementData.completionGoals[goal] 
+        return Object.keys(this.completedGoals).includes(goal) && this.completedGoals[goal] >= activeAchievement.achievementData.completionGoals[goal] 
       })
+
+      if(!goalsFulfilled){
+        var relevantGoal = Object.keys(activeAchievement.achievementData.completionGoals)[0]
+        
+        if(activeAchievement.lastRelevantGoal != this.completedGoals[relevantGoal]){
+          if(activeAchievement.pinned && activeAchievement.lastRelevantGoal != -1){
+            this.achievementEmit.next(activeAchievement)
+          }        
+          activeAchievement.lastRelevantGoal = this.completedGoals[relevantGoal]
+        }
+      }
 
       if(triggersFulfilled && goalsFulfilled){
         completedAchievements.push(activeAchievement)
@@ -71,9 +96,19 @@ export class AchievementsService {
       }
     })
 
-    completedAchievements.forEach(achievement => this.productionService.earnAchievement(achievement))
+    this.achievements.filter(achievement => achievement.completed).forEach(achievement => {
+      if(achievement.pinned){
+        achievement.pinned = false
+        forceSave = true
+      }      
+    })
 
-    if(completedAchievements.length != 0){
+    completedAchievements.forEach(achievement => {
+      this.productionService.earnAchievement(achievement)
+      this.achievementEmit.next(achievement)
+    })
+
+    if(completedAchievements.length != 0 || forceSave){
       this.saveAchievements()
     }
   }
@@ -88,7 +123,8 @@ export class AchievementsService {
       savedAchievements.push({
         achievementDataID: achievement.achievementData.id,
         seenTriggers: achievement.seenTriggers,
-        completed: achievement.completed
+        completed: achievement.completed,
+        pinned: achievement.pinned
       })
     })
 
@@ -112,6 +148,10 @@ export class AchievementsService {
         activeAchievement.seenTriggers[trigger.type] = 0
       }
       activeAchievement.seenTriggers[trigger.type] += trigger.amount
+
+      if(activeAchievement.pinned){
+        this.achievementEmit.next(activeAchievement)
+      }
     })
 
     this.progressAchievements()

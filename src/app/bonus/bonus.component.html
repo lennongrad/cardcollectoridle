@@ -3,3 +3,9 @@
         {{bonus.value}}
     </div>
 </div>
+<div id="notification-container">
+    <app-achievementbox *ngFor="let achievement of achievements; index as i" 
+        [style]="getAchievementStyle(achievement)"
+        (click)="removeAchievement(i)"
+        [achievement]="achievement.achievement"></app-achievementbox>
+</div>
