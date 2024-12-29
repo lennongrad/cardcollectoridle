@@ -30,7 +30,7 @@ export class CollectionService {
   } 
 
   getFoilChance(cardDetail: CardDetail, foilMod: number = 0, foilOverride: number = -1): number {
-    return 0.2 * Math.pow(0.9, foilOverride == -1 ? cardDetail.foilCount : foilOverride - foilMod)
+    return 0.05 * Math.pow(0.95, foilOverride == -1 ? cardDetail.foilCount : foilOverride - foilMod)
   }
 
   generatePack(packs: Array<PackType>): Array<CardPackCard> {
@@ -139,11 +139,13 @@ export class CollectionService {
                   if(denomination == "" || denomination == "Unique" 
                     || (denomination == "10x" && relevantCount >= 10) 
                     || (denomination == "100x" && relevantCount >= 100)){
-                      var destination = `ownCards${denomination}${type}${element}`
-                      if(!Object.keys(goals).includes(destination)){
-                        goals[destination] = 0
-                      }
-                      goals[destination] += (denomination == "" ? relevantCount : 1)
+                      (["", set.cardSet.title.replace(/\s/g, '')]).forEach((set: string) => {
+                        var destination = `ownCards${denomination}${type}${element}${set}`
+                        if(!Object.keys(goals).includes(destination)){
+                          goals[destination] = 0
+                        }
+                        goals[destination] += (denomination == "" ? relevantCount : 1)
+                      })
                   }
                 })
               }
@@ -152,7 +154,6 @@ export class CollectionService {
         })
       })
     })
-  
   }
 
   loadCardDetails(loadedCardSets: Array<CardSet>, savedCardDetails: Array<SavedCardDetail>){
@@ -204,7 +205,7 @@ export class CollectionService {
         set: cardSetDetail,
         cardCount: 6,
         foilBoost: 0,
-        texture: "base",
+        texture: cardSetDetail.cardSet.icon,
         adjustment: "common",
         alternateMax: alternateMax,
         currentAlternate: Math.floor(Math.random() * alternateMax),
@@ -214,7 +215,7 @@ export class CollectionService {
         set: cardSetDetail,
         cardCount: 6,
         foilBoost: 0,
-        texture: "base",
+        texture: cardSetDetail.cardSet.icon,
         adjustment: "premium",
         alternateMax: 1,
         currentAlternate: 0,
@@ -224,7 +225,7 @@ export class CollectionService {
         set: cardSetDetail,
         cardCount: 6,
         foilBoost: 0,
-        texture: "base",
+        texture: cardSetDetail.cardSet.icon,
         adjustment: "deluxe",
         alternateMax: 1,
         currentAlternate: 0,
@@ -233,6 +234,7 @@ export class CollectionService {
     })
 
     this.cardSetsLoaded.next(null);
+    console.log(this.cardSets)
   }
 
   getPrice(packType: PackType, discount?: Discount): number {

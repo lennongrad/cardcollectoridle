@@ -59,6 +59,13 @@ export class DataManageService {
     var currentCardSet: CardSet | null;
     var c = 0;
 
+    var cardSets: any = {
+      "base": 180,
+      "metamorphosis": 266,
+      "survival": 170,
+      "domination": 200
+    }
+
     data.forEach((row: Array<string>, index: number) => {
       if(row[0] == "---") {
         var newCards: Array<CardType> = []
@@ -67,6 +74,7 @@ export class DataManageService {
           title: row[1],
           icon: row[2],
           cost: Number(row[3]),
+          width: cardSets[row[2]] as number,
           cards: newCards
         }
         loadedCardSets.push(currentCardSet)
@@ -75,7 +83,7 @@ export class DataManageService {
         currentCardSet.cards.push({
           id: currentCardSet.id + "-" + currentCardSet.cards.length,
           title: row[0],
-          icon: c,
+          icon: Number(row[7]),
           subtype: row[1] as CardSubtype,
           evolvesFrom: row[2],
           cost: Number(row[3]),

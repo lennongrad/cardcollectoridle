@@ -13,6 +13,7 @@
     background-color: rgba(0,0,0,.9);
     opacity: 1;
     transition: .3s opacity;
+    z-index: 3;
 
     &:not(.shown) {
         opacity: 0;
@@ -31,6 +32,7 @@
     opacity: 1;
     box-shadow: 2px 2px rgba(0, 0, 0, 0.8), -2px 2px rgba(0, 0, 0, 0.8), 
         2px -2px rgba(0, 0, 0, 0.8), -2px -2px rgba(0, 0, 0, 0.8);
+    z-index: 5;
 
     &:not(.shown){
         transform: translate(-50%, -50%) scale(0); 
@@ -136,6 +138,7 @@
         0 0 4px black, 0 0 1px black, 0 0 4px black, 0 0 1px black;
     cursor: pointer;
     user-select: none;
+    z-index: 5;
     
     transform: translateX(-50%) scale(1);
     transition: .2s transform;

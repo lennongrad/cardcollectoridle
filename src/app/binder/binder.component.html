@@ -1,5 +1,15 @@
 
 <div id="binder-container" *ngIf="activeCardSet != undefined">
+    <div id="sets-container" style="position: relative; z-index: 0">
+        <div id="set-icon-container">
+            <div class="set-icon" *ngFor="let set of getCardSets()" [style.minWidth]="set.cardSet.width + 'px'"
+                (click)="activeCardSet = set" [class.selected]="set == activeCardSet">
+                <img [src]="'assets/set_' + set.cardSet.icon + '.png'"/>
+                <span>{{set.cardSet.title}}</span>
+                <div class="set-background"></div>
+            </div>
+        </div>
+    </div>
     <div id="store-container">
         <app-store [cardPacks]="activeCardSet.cardPacks"></app-store>
     </div>

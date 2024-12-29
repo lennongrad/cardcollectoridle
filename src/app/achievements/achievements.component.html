@@ -13,17 +13,19 @@
             <app-achievementbox [achievement]="lastHoveredAchievement"></app-achievementbox>
         </div>
     </div>
-    <div id="achievement-holder" [style.width]="getWidth() + 'px'">
-        <div class="achievement-display" (contextmenu)="rightClickAchievement(achievement)" 
-            *ngFor="let achievement of getAchievements(); index as i" 
-            (mouseover)="lastHoveredAchievement = achievement"
-            (mouseout)="lastHoveredAchievement = lastHoveredAchievement == achievement ? undefined : lastHoveredAchievement">
-            <div class="achievement-piece" [class.parity]="getParity(i)"
-                 [class.completed]="achievement.completed">
-                <img class="pin-icon" src="assets/pinicon.png" [class.shown]="achievement.pinned" />
-                <img class="main-icon" [src]="'assets/achievement/' + achievement.achievementData.icon + '.png'"/>
-                <div class="difficulty">{{"★".repeat(achievement.achievementData.difficulty)}}</div>
-            </div>
-        </div> 
+    <div id="achievement-container">
+        <div id="achievement-holder" [style.width]="getWidth() + 'px'">
+            <div class="achievement-display" (contextmenu)="rightClickAchievement(achievement)" 
+                *ngFor="let achievement of getAchievements(); index as i" 
+                (mouseover)="lastHoveredAchievement = achievement"
+                (mouseout)="lastHoveredAchievement = lastHoveredAchievement == achievement ? undefined : lastHoveredAchievement">
+                <div class="achievement-piece" [class.parity]="getParity(i)"
+                     [class.completed]="achievement.completed">
+                    <img class="pin-icon" src="assets/pinicon.png" [class.shown]="achievement.pinned" />
+                    <img class="main-icon" [src]="'assets/achievement/' + achievement.achievementData.icon + '.png'"/>
+                    <div class="difficulty">{{"★".repeat(achievement.achievementData.difficulty)}}</div>
+                </div>
+            </div> 
+        </div>
     </div>
 </div>

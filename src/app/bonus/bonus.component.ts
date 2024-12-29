@@ -56,7 +56,6 @@ export class BonusComponent {
 
   removeAchievement(index: number) {
     this.achievements[index].timer = 50
-    //this.achievements.splice(index, 1)
   }
 
   getValue(bonus: Bonus){

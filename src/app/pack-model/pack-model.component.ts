@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, SimpleChange, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChange, ViewChild } from '@angular/core';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { PackType } from '../interfaces';
@@ -8,9 +8,10 @@ import { PackType } from '../interfaces';
   templateUrl: './pack-model.component.html',
   styleUrl: './pack-model.component.less'
 })
-export class PackModelComponent implements AfterViewInit, OnChanges  {
+export class PackModelComponent implements AfterViewInit, OnChanges, OnDestroy  {
   @ViewChild("canvasBox")
   canvas?: ElementRef
+  renderer: any;
 
   @Input() pack?: PackType;
 
@@ -86,12 +87,12 @@ export class PackModelComponent implements AfterViewInit, OnChanges  {
       return;
     }
 
-    const renderer = new THREE.WebGLRenderer({
+    this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas.nativeElement,
       logarithmicDepthBuffer: true
     });
-    renderer.setClearColor(0xe232222, 0);
-    renderer.setSize(this.canvasSizes.width, this.canvasSizes.height);
+    this.renderer.setClearColor(0xe232222, 0);
+    this.renderer.setSize(this.canvasSizes.width, this.canvasSizes.height);
 
     const clock = new THREE.Clock();
 
@@ -118,7 +119,7 @@ export class PackModelComponent implements AfterViewInit, OnChanges  {
       }
 
       // Render
-      renderer.render(scene, camera);
+      this.renderer.render(scene, camera);
 
       // Call tick again on the next frame
       window.requestAnimationFrame(animateGeometry);
@@ -133,7 +134,7 @@ export class PackModelComponent implements AfterViewInit, OnChanges  {
 
     this.model!.rotation.order = "XZY";
 
-    var filename: string = `assets/pack_${this.pack?.texture}_${this.pack?.adjustment}_${this.pack?.currentAlternate!+1}.png`
+    var filename: string = `assets/packs/${this.pack?.texture}_${this.pack?.adjustment}_${this.pack?.currentAlternate!+1}.png`
 
     const texture = new THREE.TextureLoader().load(filename); 
     texture.colorSpace = THREE.SRGBColorSpace;
@@ -151,6 +152,11 @@ export class PackModelComponent implements AfterViewInit, OnChanges  {
 
   ngOnChanges(changes: any) {
     this.updateTexture()
+  }
+
+  ngOnDestroy() {
+    this.renderer.dispose()
+    this.renderer.forceContextLoss()
   }
 
   onRightClick(event: MouseEvent): false {

@@ -8,12 +8,11 @@ import { DataManageService } from './data-manage.service';
 export class WindowService {
   windowOptions: Array<WindowOption> = [
     { title: "Binder", image: "window_collection.png" },
-    //{ title: "Store", image: "window_store.png" },
     { title: "Achievements", image: "window_achievements.png" },
     { title: "Settings", image: "window_settings.png" },
   ]
 
-  activeWindow: WindowType = "Achievements";
+  activeWindow: WindowType = "Binder";
 
   getWindowOptions(): Array<WindowOption> {
     return this.windowOptions;

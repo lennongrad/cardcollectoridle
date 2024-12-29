@@ -1,0 +1,3 @@
+import { AchievementData } from "./interfaces"
+
+export var achievementData: Array<AchievementData> = [

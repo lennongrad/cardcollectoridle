@@ -648,7 +648,7 @@ export var achievementData: Array<AchievementData> = [
     {
         id: 161, name: 'Own 100x Foil Wind Cards (2)', icon: 'wind8', text: '', difficulty: 4,
         completionGoals: {ownCards100xFoilWind: 25}, completionTriggers: {},
-    },
+    },/*
     {
         id: 162, name: 'Own Companion Cards (1)', icon: 'companion2', text: '', difficulty: 2,
         completionGoals: {ownCardsCompanion: 100}, completionTriggers: {},
@@ -912,5 +912,69 @@ export var achievementData: Array<AchievementData> = [
     {
         id: 227, name: 'Own 100x Foil Skill Cards (2)', icon: 'skill8', text: '', difficulty: 4,
         completionGoals: {ownCards100xFoilSkill: 25}, completionTriggers: {},
+    },*/
+    {
+        id: 228, name: 'Own All Base Set Cards (1)', icon: 'baseset', text: '', difficulty: 3,
+        completionGoals: {ownCardsUniqueBaseSet: 70}, completionTriggers: {},
+    },
+    {
+        id: 229, name: 'Own All Base Set Foil Cards (1)', icon: 'baseset', text: '', difficulty: 4,
+        completionGoals: {ownCardsUniqueFoilBaseSet: 70}, completionTriggers: {},
+    },
+    {
+        id: 230, name: 'Own 100x Base Set Cards (1)', icon: 'baseset', text: '', difficulty: 5,
+        completionGoals: {ownCards100xBaseSet: 70}, completionTriggers: {},
+    },
+    {
+        id: 231, name: 'Own 100x Base Set Foil Cards (1)', icon: 'baseset', text: '', difficulty: 6,
+        completionGoals: {ownCards100xFoilBaseSet: 70}, completionTriggers: {},
+    },
+    {
+        id: 232, name: 'Own All Metamorphosis Cards (1)', icon: 'metamorphosis', text: '', difficulty: 4,
+        completionGoals: {ownCardsUniqueMetamorphosis: 70}, completionTriggers: {},
+    },
+    {
+        id: 233, name: 'Own All Metamorphosis Foil Cards (1)', icon: 'metamorphosis', text: '', difficulty: 5,
+        completionGoals: {ownCardsUniqueFoilMetamorphosis: 70}, completionTriggers: {},
+    },
+    {
+        id: 234, name: 'Own 100x Metamorphosis Cards (1)', icon: 'metamorphosis', text: '', difficulty: 6,
+        completionGoals: {ownCards100xMetamorphosis: 70}, completionTriggers: {},
+    },
+    {
+        id: 235, name: 'Own 100x Metamorphosis Foil Cards (1)', icon: 'metamorphosis', text: '', difficulty: 7,
+        completionGoals: {ownCards100xFoilMetamorphosis: 70}, completionTriggers: {},
+    },
+    {
+        id: 236, name: 'Own All Survival Cards (1)', icon: 'survival', text: '', difficulty: 5,
+        completionGoals: {ownCardsUniqueSurvival: 70}, completionTriggers: {},
+    },
+    {
+        id: 237, name: 'Own All Survival Foil Cards (1)', icon: 'survival', text: '', difficulty: 6,
+        completionGoals: {ownCardsUniqueFoilSurvival: 70}, completionTriggers: {},
+    },
+    {
+        id: 238, name: 'Own 100x Survival Cards (1)', icon: 'survival', text: '', difficulty: 7,
+        completionGoals: {ownCards100xSurvival: 70}, completionTriggers: {},
+    },
+    {
+        id: 239, name: 'Own 100x Survival Foil Cards (1)', icon: 'survival', text: '', difficulty: 8,
+        completionGoals: {ownCards100xFoilSurvival: 70}, completionTriggers: {},
+    },
+    {
+        id: 240, name: 'Own All Domination Cards (1)', icon: 'domination', text: '', difficulty: 6,
+        completionGoals: {ownCardsUniqueDomination: 70}, completionTriggers: {},
+    },
+    {
+        id: 241, name: 'Own All Domination Foil Cards (1)', icon: 'domination', text: '', difficulty: 7,
+        completionGoals: {ownCardsUniqueFoilDomination: 70}, completionTriggers: {},
+    },
+    {
+        id: 242, name: 'Own 100x Domination Cards (1)', icon: 'domination', text: '', difficulty: 8,
+        completionGoals: {ownCards100xDomination: 70}, completionTriggers: {},
+    },
+    {
+        id: 243, name: 'Own 100x Domination Foil Cards (1)', icon: 'domination', text: '', difficulty: 9,
+        completionGoals: {ownCards100xFoilDomination: 70}, completionTriggers: {},
     },
 ]

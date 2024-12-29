@@ -1,8 +1,9 @@
 #achievement-main {
     position: relative;
+    display: flex;
     width: 100%;
     height: 100%;
-    overflow-y: scroll;
+    flex-direction: column;
 }
 
 #achievement-header {
@@ -51,6 +52,10 @@
             background-clip: text;
         }
     }
+}
+
+#achievement-container {
+    overflow-y: scroll;
 }
 
 #achievement-holder {

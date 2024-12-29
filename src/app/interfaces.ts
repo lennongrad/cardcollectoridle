@@ -49,6 +49,7 @@ export interface CardSet {
     title: string,
     icon: string,
     cost: number,
+    width: number,
     cards: Array<CardType>
 }
 
