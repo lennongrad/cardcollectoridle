@@ -9,23 +9,17 @@ import { Beautify } from '../beautify';
   styleUrl: './binder.component.less'
 })
 export class BinderComponent {
-  activeCardSet?: CardSetDetail;
-
-  constructor(private collectionService: CollectionService) {
-    if(this.collectionService.cardSets.length == 0){
-      collectionService.cardSetsLoaded.subscribe(() => {
-        this.activeCardSet = this.collectionService.cardSets[0]
-      })
-    } else {
-      this.activeCardSet = this.collectionService.cardSets[0]
-    }
-  }
+  constructor(private collectionService: CollectionService) { }
 
   getBurnerCount(): Array<null> {
     var cardsPerRow = Math.max(3, Math.floor((window.innerWidth - 371) / 210))
-    var neededBurners = cardsPerRow - (this.activeCardSet!.cards.length % cardsPerRow)
+    var neededBurners = cardsPerRow - (this.getActiveCardSet()!.cards.length % cardsPerRow)
     
     return Array(neededBurners)
+  }
+
+  getActiveCardSet(): CardSetDetail | undefined {
+    return this.collectionService.activeCardSet
   }
 
   getCardSets(): Array<CardSetDetail> {

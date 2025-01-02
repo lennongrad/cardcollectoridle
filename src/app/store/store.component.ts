@@ -10,8 +10,6 @@ import { ProductionService } from "../production.service";
   styleUrl: './store.component.less'
 })
 export class StoreComponent  {
-  @Input() cardPacks?: Array<PackType>
-
   chosenPackID: number = 0
 
   discounts: Array<Discount> = [
@@ -23,6 +21,13 @@ export class StoreComponent  {
 
   constructor(private collectionService: CollectionService, private productionService: ProductionService){
     //setTimeout(() => this.purchase( this.cardPacks![0], {amount: 76, discount: 1 }), 10)
+  }
+
+  getCardPacks(): Array<PackType> {
+    if(this.collectionService.activeCardSet == undefined){
+      return []
+    }
+    return this.collectionService.activeCardSet?.cardPacks
   }
 
   getPrice(packType: PackType, discount?: Discount): string {

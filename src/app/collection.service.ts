@@ -10,6 +10,7 @@ import { randomItem } from './helpers';
 export class CollectionService {
   cardSets: Array<CardSetDetail> = []
   skipSaving: boolean = false;
+  activeCardSet?: CardSetDetail;
   
   public cardSetsLoaded = new Subject()
   public triggerEmit: Subject<Trigger> = new Subject()
@@ -238,6 +239,9 @@ export class CollectionService {
   }
 
   getPrice(packType: PackType, discount?: Discount): number {
+    if(packType == undefined){
+      return 0
+    }
     var realPrice = packType.baseCost
 
     if(discount != undefined){

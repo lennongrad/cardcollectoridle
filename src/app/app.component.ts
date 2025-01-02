@@ -16,12 +16,26 @@ export class AppComponent {
     private productionService: ProductionService,
     private collectionService: CollectionService,
     private achievementService: AchievementsService,
-    private windowService: WindowService){}
+    private windowService: WindowService){
+      if(this.collectionService.cardSets.length == 0){
+        collectionService.cardSetsLoaded.subscribe(() => {
+          this.collectionService.activeCardSet = this.collectionService.cardSets[0]
+        })
+      } else {
+        this.collectionService.activeCardSet = this.collectionService.cardSets[0]
+      }
+    }
 
   getActiveWindow(): WindowType {
     return this.windowService.getActiveWindow()
   }
 
+  
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.windowService.onResize(event.target.innerWidth)
+  }
+    
   @HostListener('document:keypress', ['$event'])
   onKeyPress(event: KeyboardEvent) {
     switch(event.key){

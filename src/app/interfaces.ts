@@ -116,7 +116,7 @@ export interface Discount {
 }
 
 // Managing viewable windows
-export type WindowType = "Store" | "Binder" | "Achievements" | "Settings";
+export type WindowType = "Production" | "Binder" | "Achievements" | "Settings" | "Store";
 
 export interface WindowOption {
     title: WindowType,

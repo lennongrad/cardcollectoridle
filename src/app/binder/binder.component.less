@@ -7,77 +7,6 @@
     flex-direction: column;
 }
 
-#sets-container {
-    background-color: #041014;
-    padding: 6px 0 0 6px;
-}
-
-#set-icon-container {
-    display: flex;
-    overflow-x: auto;
-    overflow-y: hidden;
-    justify-content: center;
-    padding-left: calc(1230px - 100vw);
-    user-select: none;
-
-    .set-icon {
-        position: relative;
-        display: flex;
-        margin: 4px;
-        color: white;
-        border: 1px solid #225972;
-        border-radius: 4px;
-        vertical-align: top;
-        height: 40px;
-        cursor: pointer;
-        text-wrap: nowrap;
-        overflow: hidden;
-
-        &.selected .set-background {
-            transform: translate(-50%,-50%) scale(1);
-            //background-color: #225972;
-        }
-
-        &:hover .set-background {
-            transform: translate(-50%,-50%) scale(1);
-            //background-color: #225972;
-        }
-
-        .set-background {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%,-50%) scale(0);
-            width: 200%;
-            height: 200%;
-            border-radius: 100%;
-            background-color: #225972;
-            transition: .15s;
-        }
-
-        img {
-            position: relative;
-            width: 32px;
-            height: 32px;
-            margin-top: 4px;
-            margin-left: 4px;
-            margin-right: 4px;
-            filter: drop-shadow(1px 1px 1px black);
-            z-index: 1;
-        }
-
-        span {
-            position: relative;
-            padding: 5px;
-            line-height: 32px;
-            font-size: 20px;
-            font-family: 'Formal Future';
-            filter: drop-shadow(1px 1px 1px black);
-            z-index: 1;
-        }
-    }
-}
-
 #cards-container{
     display: flex;
     flex-direction: row;
@@ -130,5 +59,11 @@ app-card {
 
     .card-count-cost {
         flex: 1.5;
+    }
+}
+
+@media (max-width: 900px) {
+    app-store {
+        display: none
     }
 }

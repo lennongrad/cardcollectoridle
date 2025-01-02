@@ -1,0 +1,67 @@
+#holder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+}
+
+#tips, #credit {
+    background-color: #041014;
+    color: white;
+    margin: 8px;
+    padding: 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: Arial;
+
+    .big {
+        font-size: 18px;
+        margin-right: 4px;
+        font-weight: bold;
+    }
+}
+
+#tips {
+    flex: 1;
+}
+
+#credit {
+    margin-top: 0;
+    padding-top: 16px;
+
+    a {
+        font-size: 15px;
+        font-weight: bold;
+        color: white;
+    }
+}
+
+#extra {
+    min-height: 40px;
+    display: flex;
+    padding: 0 10px;
+
+    button {
+        width: 100%;
+        border: none;
+        background-color: #041014;
+        color: white;
+        padding: 8px;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:hover {
+            filter: brightness(1.3)
+        }
+    }
+}
+
+#reset-button {
+    flex: 2;
+    padding-right: 5px;
+}
+
+#plug {
+    flex: 3;
+}

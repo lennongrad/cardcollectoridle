@@ -1,6 +1,6 @@
 <div id="store-section">
-    <div id="store-packs" *ngIf="cardPacks != undefined">
-        <div id="store-packs-holder" *ngFor="let pack of cardPacks; index as i"
+    <div id="store-packs" *ngIf="getCardPacks() != undefined">
+        <div id="store-packs-holder" *ngFor="let pack of getCardPacks(); index as i"
             [class.isCurrent]="chosenPackID == i" (click)="chosenPackID = i">
             <app-pack-model  [pack]="pack"></app-pack-model>
             <div id="pack-cost" style="background-image: url('assets/salesplosion.png')">
@@ -21,14 +21,14 @@
             <div id="pack-background"></div>
         </div>
     </div>
-    <div id="store-purchase" *ngIf="cardPacks != undefined">
+    <div id="store-purchase" *ngIf="getCardPacks() != undefined">
         <div *ngFor="let discount of discounts" class="purchase-amount" 
-            [class.affordable]="canAfford(cardPacks[chosenPackID], discount)"
+            [class.affordable]="canAfford(getCardPacks()[chosenPackID], discount)"
             [id]="'purchase-' + discount.amount" 
-            (click)="purchase(cardPacks[chosenPackID], discount)">
+            (click)="purchase(getCardPacks()[chosenPackID], discount)">
             <div class="purchase-title"><span class="buy-text">Buy </span>x{{discount.amount}}</div>
             <div class="purchase-cost">
-                ${{getPrice(cardPacks[chosenPackID], discount)}}
+                ${{getPrice(getCardPacks()[chosenPackID], discount)}}
                 <span class="purchase-discount">
                     ({{(1 - discount.discount) * 100}}%)
                 </span>

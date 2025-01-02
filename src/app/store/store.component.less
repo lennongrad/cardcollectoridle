@@ -44,8 +44,6 @@
     }
 
     &:hover {
-        //background-color: #155066;
-
         #pack-background {
             transform: translate(-50%,-50%) scale(1);
         }
@@ -57,7 +55,6 @@
     }
 
     &.isCurrent, &:active{
-
         #pack-background {
             transform: translate(-50%,-50%) scale(1);
         }
@@ -145,8 +142,6 @@ app-pack-model {
 
         &:hover {
             background-color: #124354;
-            height: 30px;
-            line-height: 30px;
             transform: scaleX(1.1);
         }
 
@@ -209,5 +204,24 @@ app-pack-model {
 
     .buy-text {
         display: none
+    }
+}
+
+@media (max-width: 500px) {
+    #store-packs {
+        padding-left: 0;
+    }
+
+    .purchase-amount {
+        display: flex !important;
+        flex-direction: column;
+        height: 57px !important;
+    }
+}
+
+@media (max-width: 450px) {
+    app-pack-model {
+        transform: translateX(-22px);
+        display: block;
     }
 }

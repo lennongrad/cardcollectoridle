@@ -1,0 +1,10 @@
+<div id="sets-container" style="position: relative; z-index: 0">
+    <div id="set-icon-container">
+        <div class="set-icon" *ngFor="let set of getCardSets()" [style.minWidth]="set.cardSet.width + 'px'"
+            (click)="setActiveCardSet(set)" [class.selected]="set == getActiveCardSet()">
+            <img [src]="'assets/set_' + set.cardSet.icon + '.png'"/>
+            <span>{{set.cardSet.title}}</span>
+            <div class="set-background"></div>
+        </div>
+    </div>
+</div>

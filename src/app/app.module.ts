@@ -16,6 +16,7 @@ import { CardComponent } from './card/card.component';
 import { PackDisplayComponent } from './pack-display/pack-display.component';
 import { PackModelComponent } from './pack-model/pack-model.component';
 import { AchievementboxComponent } from './achievementbox/achievementbox.component';
+import { SetchooserComponent } from './setchooser/setchooser.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { AchievementboxComponent } from './achievementbox/achievementbox.compone
     CardComponent,
     PackDisplayComponent,
     PackModelComponent,
-    AchievementboxComponent
+    AchievementboxComponent,
+    SetchooserComponent
   ],
   imports: [
     BrowserModule,
